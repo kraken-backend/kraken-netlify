@@ -16,12 +16,19 @@
     />
     <meta property="og:url" content="https://krakenteam.netlify.app/fintech-engineer.html" />
     <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://krakenteam.netlify.app/blog-assets/bitcoin-golden-coin.jpg" />
     <style>
       body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: #0b1220; color: #e2e8f0; }
       main { width: min(900px, 92%); margin: 2.2rem auto; }
       .card { border: 1px solid #23314a; border-radius: 14px; padding: 1.2rem; background: #0f172a; }
+      .cover { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; border: 1px solid #334155; margin: 0.5rem 0 1rem; }
+      .theme-toggle { position: fixed; top: 14px; right: 14px; z-index: 10; border: 1px solid #334155; background: #111827; color: #e5e7eb; border-radius: 999px; font-size: 0.82rem; padding: 0.35rem 0.75rem; cursor: pointer; }
       h1 { margin-top: 0; }
       a { color: #93c5fd; text-decoration: none; }
+      body.theme-light { background: #edf3fb; color: #0f172a; }
+      body.theme-light .card { background: #ffffff; border-color: #d4dce8; }
+      body.theme-light .cover { border-color: #d4dce8; }
+      body.theme-light .theme-toggle { background: #eff6ff; color: #0f172a; border-color: #93c5fd; }
       ul { line-height: 1.7; }
     </style>
     <script type="application/ld+json">
@@ -39,9 +46,11 @@
     </script>
   </head>
   <body>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
     <main>
       <section class="card">
         <h1>Fintech Engineer Indonesia</h1>
+        <img class="cover" src="/blog-assets/bitcoin-golden-coin.jpg" alt="Fintech and digital asset visual from Wikimedia Commons" />
         <p>
           Hendri Rahmat Hendrianto mengembangkan sistem fintech end-to-end untuk payment processing, approval flows,
           dan automation berbasis API pada platform hybrid Web2+Web3.
@@ -56,5 +65,22 @@
         <p><a href="/">Back to main portfolio</a></p>
       </section>
     </main>
+    <script>
+      (function () {
+        const key = "insight-theme";
+        const saved = localStorage.getItem(key);
+        if (saved === "light") document.body.classList.add("theme-light");
+        const btn = document.getElementById("theme-toggle");
+        const setLabel = () => {
+          btn.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode";
+        };
+        setLabel();
+        btn.addEventListener("click", function () {
+          document.body.classList.toggle("theme-light");
+          localStorage.setItem(key, document.body.classList.contains("theme-light") ? "light" : "dark");
+          setLabel();
+        });
+      })();
+    </script>
   </body>
 </html>
