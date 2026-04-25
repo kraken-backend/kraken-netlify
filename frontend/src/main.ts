@@ -220,6 +220,13 @@ function renderPortfolio(data: ProfileResponse) {
       </section>
 
       <section class="card">
+        <h3>Latest Insight</h3>
+        <div class="seo-links">
+          <a href="/kvp-layer1-architecture-journey.html">How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</a>
+        </div>
+      </section>
+
+      <section class="card">
         <h3>About Me</h3>
         <p class="about-me">${data.aboutMe}</p>
       </section>
