@@ -8,6 +8,7 @@ type ProfileResponse = {
   contact: {
     email: string;
     mobile: string;
+    whatsapp: string;
     linkedin: string;
     github: string;
     youtube: string;
@@ -35,6 +36,7 @@ const fallbackProfile: ProfileResponse = {
   contact: {
     email: "rahmathst99@gmail.com",
     mobile: "082167711689",
+    whatsapp: "6282167711689",
     linkedin: "https://linkedin.com/in/hendri-rahmat-hendrianto-6897b22a",
     github: "https://github.com/kraken-backend",
     youtube: "https://youtube.com/@hendrirh",
@@ -63,7 +65,7 @@ const fallbackProfile: ProfileResponse = {
     },
     {
       name: "anantla_sdk",
-      period: "2025 - Present",
+      period: "2025 - Dec 2025",
       description:
         "Production NPM SDK for multi-chain wallet and payment integration with TypeScript support.",
       url: "https://www.npmjs.com/package/anantla_sdk"
@@ -141,6 +143,7 @@ function renderPortfolio(data: ProfileResponse) {
           <a href="${data.contact.youtube}" target="_blank" rel="noreferrer">YouTube</a>
           <a href="https://discord.com/" target="_blank" rel="noreferrer">Discord: ${data.contact.discord}</a>
           <a href="mailto:${data.contact.email}">Email</a>
+          <a href="https://wa.me/${data.contact.whatsapp}" target="_blank" rel="noreferrer">WhatsApp</a>
         </div>
       </section>
 
