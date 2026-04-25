@@ -16,14 +16,25 @@
       content="Perjalanan teknis KVP Protocol: Layer-1 design, tokenomics enforcement, dan evolusi arsitektur dari Go ke Rust."
     />
     <meta property="og:url" content="https://krakenteam.netlify.app/kvp-layer1-architecture-journey.html" />
+    <meta property="og:image" content="https://krakenteam.netlify.app/blog-assets/kvp-cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)" />
+    <meta
+      name="twitter:description"
+      content="Perjalanan teknis KVP Protocol: Layer-1 design, tokenomics enforcement, dan evolusi arsitektur dari Go ke Rust."
+    />
+    <meta name="twitter:image" content="https://krakenteam.netlify.app/blog-assets/kvp-cover.jpg" />
     <style>
-      body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: #0b1220; color: #e2e8f0; line-height: 1.7; }
-      main { width: min(920px, 92%); margin: 2rem auto; }
-      article { border: 1px solid #243249; border-radius: 16px; padding: 1.4rem; background: #0f172a; }
+      body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: radial-gradient(circle at top, #111b31, #0b1220 45%); color: #e2e8f0; line-height: 1.75; }
+      main { width: min(960px, 92%); margin: 2rem auto; }
+      article { border: 1px solid #243249; border-radius: 16px; padding: 1.4rem; background: #0f172a; box-shadow: 0 10px 26px rgba(2, 6, 23, 0.28); }
       h1, h2 { line-height: 1.3; }
       h1 { margin-top: 0; }
       .meta { color: #94a3b8; font-size: 0.95rem; }
       .impact { border: 1px solid #334155; border-radius: 12px; padding: 1rem; background: #111c31; }
+      .cover { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; margin: 0.4rem 0 1rem; }
+      .section-image { width: 100%; height: 260px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; margin: 0.5rem 0 1rem; }
+      .badge { display: inline-block; border: 1px solid #3b82f6; color: #93c5fd; border-radius: 999px; padding: 0.2rem 0.65rem; font-size: 0.82rem; margin-bottom: 0.5rem; }
       a { color: #93c5fd; text-decoration: none; }
       ul { margin: 0.5rem 0 0; }
     </style>
@@ -49,8 +60,10 @@
   <body>
     <main>
       <article>
+        <span class="badge">Blockchain Engineering • Technical Insight</span>
         <h1>How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</h1>
         <p class="meta">By Hendri Rahmat Hendrianto • Updated Apr 25, 2026</p>
+        <img class="cover" src="/blog-assets/kvp-cover.jpg" alt="KVP protocol architecture visual cover" />
         <p>
           KVP Protocol (Krakenum Chain) adalah inisiatif Layer-1 yang saya bangun dengan fokus utama pada deterministic
           monetary rules, predictable execution, dan arsitektur yang siap untuk production-grade fintech workflows.
@@ -68,6 +81,7 @@
           <li>Node runtime and basic network synchronization model</li>
         </ul>
         <h2>Phase 2: Protocol Maturation in Rust (2020-Present)</h2>
+        <img class="section-image" src="/blog-assets/kvp-section.jpg" alt="KVP modernization and architecture evolution visual" />
         <p>
           Saat kebutuhan reliability dan determinism naik, saya migrasi core architecture ke Rust. Fokusnya adalah meminimalkan
           unpredictable behavior dan memperkuat state transition guarantees di environment multi-node.
