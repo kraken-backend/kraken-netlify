@@ -237,6 +237,20 @@ ul {
   font-size: 0.92rem;
 }
 
+.project-note {
+  margin: 0.6rem 0 0.8rem;
+  padding: 0.55rem 0.65rem;
+  border-left: 3px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+  border-radius: 6px;
+  color: #fcd34d;
+  font-size: 0.86rem;
+}
+
+.ask-link {
+  margin-left: 0.9rem;
+}
+
 .skills {
   display: flex;
   flex-wrap: wrap;
@@ -382,6 +396,12 @@ body.theme-light .metric-label {
 
 body.theme-light .skill-group summary {
   color: #1d4ed8;
+}
+
+body.theme-light .project-note {
+  border-left-color: #d97706;
+  background: #fff8eb;
+  color: #9a3412;
 }
 
 @media (max-width: 768px) {

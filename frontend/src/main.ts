@@ -20,6 +20,8 @@ type ProfileResponse = {
     period: string;
     description: string;
     url?: string;
+    note?: string;
+    askEmail?: boolean;
   }>;
   aboutMe: string;
   techSupport: Array<{
@@ -64,7 +66,9 @@ const fallbackProfile: ProfileResponse = {
       period: "2015 - Present",
       description:
         "Self-built Layer-1 blockchain with fixed supply economics, leader/follower nodes, P2P synchronization, and CLI toolchain.",
-      url: "https://github.com/kraken-backend/kvp-blockchain"
+      url: "https://github.com/kraken-backend/kvp-blockchain",
+      note: "Public repository represents deprecated architecture (2015-2024). Current KVP architecture from 2024 onward is private for IP and security protection.",
+      askEmail: true
     },
     {
       name: "FinDIGI + FinChat",
@@ -228,7 +232,9 @@ function renderPortfolio(data: ProfileResponse) {
               <h4>${project.name}</h4>
               <p class="period">${project.period}</p>
               <p>${project.description}</p>
+              ${project.note ? `<p class="project-note">${project.note}</p>` : ""}
               ${project.url ? `<a href="${project.url}" target="_blank" rel="noreferrer">Open project</a>` : ""}
+              ${project.askEmail ? `<a href="mailto:${data.contact.email}?subject=KVP%20Protocol%20Inquiry" class="ask-link">Ask personally</a>` : ""}
             </article>
           `
             )
