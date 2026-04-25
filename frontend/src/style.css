@@ -24,7 +24,7 @@ body {
   margin: 0 auto;
   padding: 2.5rem 0 3rem;
   display: grid;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .hero,
@@ -32,7 +32,8 @@ body {
   background: rgba(12, 16, 24, 0.86);
   border: 1px solid #1f2937;
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.6rem;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.28);
 }
 
 .hero {
@@ -89,8 +90,9 @@ body {
 }
 
 h1 {
-  margin: 0.4rem 0 0;
+  margin: 0.4rem 0 0.2rem;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: -0.02em;
 }
 
 h2 {
@@ -102,10 +104,16 @@ h2 {
 h3 {
   margin-top: 0;
   color: #bfdbfe;
+  font-size: 1.15rem;
 }
 
 .location,
 .summary {
+  color: #d1d5db;
+}
+
+.about-me {
+  margin: 0;
   color: #d1d5db;
 }
 
@@ -120,6 +128,46 @@ h3 {
 .project a {
   color: #60a5fa;
   text-decoration: none;
+}
+
+.links a {
+  border: 1px solid #334155;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.88rem;
+  transition: 0.2s ease;
+}
+
+.links a:hover {
+  border-color: #60a5fa;
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.metrics {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.metric-item {
+  border: 1px solid #243244;
+  border-radius: 10px;
+  padding: 0.65rem 0.7rem;
+  background: rgba(10, 14, 22, 0.7);
+}
+
+.metric-value {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #93c5fd;
+}
+
+.metric-label {
+  margin: 0.2rem 0 0;
+  color: #9ca3af;
+  font-size: 0.76rem;
 }
 
 ul {
@@ -143,6 +191,12 @@ ul {
   border-radius: 12px;
   overflow: hidden;
   background: rgba(10, 14, 22, 0.9);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.media-card:hover {
+  transform: translateY(-2px);
+  border-color: #2f4f79;
 }
 
 .media-card img {
@@ -165,6 +219,12 @@ ul {
   border-radius: 12px;
   padding: 1rem;
   background: rgba(10, 14, 22, 0.9);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.project:hover {
+  transform: translateY(-2px);
+  border-color: #2f4f79;
 }
 
 .project h4 {
@@ -181,6 +241,42 @@ ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.skill-groups {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.skill-group {
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+  background: rgba(10, 14, 22, 0.9);
+}
+
+.skill-group summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #bfdbfe;
+  list-style: none;
+}
+
+.skill-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.skill-group summary::after {
+  content: " +";
+  color: #93c5fd;
+}
+
+.skill-group[open] summary::after {
+  content: " -";
+}
+
+.skill-group .skills {
+  margin-top: 0.7rem;
 }
 
 .skills span {
@@ -228,12 +324,13 @@ body.theme-light .hero,
 body.theme-light .card {
   background: rgba(255, 255, 255, 0.92);
   border-color: #d4dce8;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.09);
 }
 
 body.theme-light .location,
 body.theme-light .summary,
+body.theme-light .about-me,
 body.theme-light .period,
-body.theme-light .footer,
 body.theme-light .skills span {
   color: #334155;
 }
@@ -251,12 +348,40 @@ body.theme-light .theme-toggle {
   border-color: #93c5fd;
 }
 
+body.theme-light .links a {
+  border-color: #cbd5e1;
+  color: #1d4ed8;
+}
+
+body.theme-light .links a:hover {
+  background: #e8f1ff;
+  border-color: #93c5fd;
+}
+
 body.theme-light .project,
 body.theme-light .media-card,
 body.theme-light .tech-logos img,
-body.theme-light .skills span {
+body.theme-light .skills span,
+body.theme-light .skill-group {
   background: #f8fbff;
   border-color: #d4dce8;
+}
+
+body.theme-light .metric-item {
+  background: #f8fbff;
+  border-color: #d4dce8;
+}
+
+body.theme-light .metric-value {
+  color: #1d4ed8;
+}
+
+body.theme-light .metric-label {
+  color: #475569;
+}
+
+body.theme-light .skill-group summary {
+  color: #1d4ed8;
 }
 
 @media (max-width: 768px) {
@@ -283,6 +408,10 @@ body.theme-light .skills span {
 
   .media-grid {
     grid-template-columns: 1fr;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .tech-logos {

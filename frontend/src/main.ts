@@ -21,7 +21,15 @@ type ProfileResponse = {
     description: string;
     url?: string;
   }>;
-  skills: string[];
+  aboutMe: string;
+  techSupport: Array<{
+    category: string;
+    skills: string[];
+  }>;
+  metrics: Array<{
+    label: string;
+    value: string;
+  }>;
   communities: string[];
 };
 
@@ -33,6 +41,8 @@ const fallbackProfile: ProfileResponse = {
   location: "Bogor, West Java, Indonesia",
   summary:
     "10+ years specialized in blockchain protocol engineering, AI infrastructure, and fintech. Founder of PT Antareja Nusantara Resources, building KVP Protocol (Krakenum Chain), FinDIGI, and KrakenWorld Online.",
+  aboutMe:
+    "Full-Stack Developer and AI Engineer with 10+ years of specialized experience building production-grade systems across blockchain protocol engineering, AI infrastructure, and fintech. Founder of PT Antareja Nusantara Resources building KVP Protocol (Krakenum Chain), originally in Go and migrated to Rust, with deep experience in arbitrage bots, DEX integration, and multi-chain payment infrastructure. Across 20+ years in technical leadership, I currently lead FinDIGI, KrakenWorld Online, and KVP Protocol Phase 2 while delivering enterprise blockchain systems used in 10+ integrations and 50,000+ transactions.",
   contact: {
     email: "rahmathst99@gmail.com",
     mobile: "082167711689",
@@ -77,21 +87,41 @@ const fallbackProfile: ProfileResponse = {
         "Fully on-chain 3D MMORPG concept with governance, in-game DEX economy, and KVP settlement bridge."
     }
   ],
-  skills: [
-    "Rust",
-    "Go (Golang)",
-    "Node.js",
-    "TypeScript",
-    "Solidity",
-    "Groq API",
-    "Llama LLM",
-    "PostgreSQL",
-    "Redis",
-    "Docker",
-    "AWS",
-    "Ethers.js",
-    "WebSockets",
-    "gRPC"
+  techSupport: [
+    {
+      category: "Fintech & Product",
+      skills: ["Fintech Web3+Web2", "Payment Gateway Integration", "Maker-Checker Workflow", "USDC Settlement"]
+    },
+    {
+      category: "Backend",
+      skills: ["Node.js", "Express.js", "TypeScript", "JavaScript", "Rust", "Go (Golang)", "Python", "REST API", "WebSockets", "gRPC"]
+    },
+    {
+      category: "Frontend",
+      skills: ["React", "NextJS", "Tailwind CSS", "Vercel", "UI/UX Integration"]
+    },
+    {
+      category: "Blockchain",
+      skills: ["Solidity", "Hardhat", "Ethers.js", "Ethereum", "Polygon", "Neon", "XRPL", "Cardano", "Multi-chain Integration"]
+    },
+    {
+      category: "Database",
+      skills: ["PostgreSQL", "Redis", "NeonDB", "RockDB", "MongoDB"]
+    },
+    {
+      category: "Infra & DevOps",
+      skills: ["Docker", "AWS", "Railway", "GitHub Actions", "CI/CD", "Monitoring"]
+    },
+    {
+      category: "AI & Agent",
+      skills: ["Groq API", "Llama LLM", "AI Agent Development", "Prompt Engineering", "Intent Routing"]
+    }
+  ],
+  metrics: [
+    { label: "Specialized Experience", value: "10+ Years" },
+    { label: "Total Leadership Experience", value: "20+ Years" },
+    { label: "REST API Endpoints Delivered", value: "133" },
+    { label: "Payment Transactions Processed", value: "50,000+" }
   ],
   communities: [
     "Solana Developers Community",
@@ -145,6 +175,18 @@ function renderPortfolio(data: ProfileResponse) {
           <a href="mailto:${data.contact.email}">Email</a>
           <a href="https://wa.me/${data.contact.whatsapp}" target="_blank" rel="noreferrer">WhatsApp</a>
         </div>
+        <div class="metrics">
+          ${data.metrics
+            .map(
+              (metric) => `
+            <div class="metric-item">
+              <p class="metric-value">${metric.value}</p>
+              <p class="metric-label">${metric.label}</p>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
       </section>
 
       <section class="card media-grid">
@@ -162,6 +204,11 @@ function renderPortfolio(data: ProfileResponse) {
             <p>Portfolio direction aligned to AI Agent engineering and multi-chain infrastructure.</p>
           </div>
         </article>
+      </section>
+
+      <section class="card">
+        <h3>About Me</h3>
+        <p class="about-me">${data.aboutMe}</p>
       </section>
 
       <section class="card">
@@ -190,9 +237,20 @@ function renderPortfolio(data: ProfileResponse) {
       </section>
 
       <section class="card">
-        <h3>Core Skills</h3>
-        <div class="skills">
-          ${data.skills.map((skill) => `<span>${skill}</span>`).join("")}
+        <h3>Tech Support</h3>
+        <div class="skill-groups">
+          ${data.techSupport
+            .map(
+              (group) => `
+            <details class="skill-group">
+              <summary>${group.category}</summary>
+              <div class="skills">
+                ${group.skills.map((skill) => `<span>${skill}</span>`).join("")}
+              </div>
+            </details>
+          `
+            )
+            .join("")}
         </div>
         <div class="tech-logos">
           <img src="/Cardano.png" alt="Cardano" />
@@ -208,11 +266,6 @@ function renderPortfolio(data: ProfileResponse) {
           ${data.communities.map((community) => `<li>${community}</li>`).join("")}
         </ul>
       </section>
-
-      <footer class="footer">
-        <p>Mobile: ${data.contact.mobile}</p>
-        <p>Built for Kraken Team profile refresh.</p>
-      </footer>
     </main>
   `;
 }
