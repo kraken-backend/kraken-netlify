@@ -211,6 +211,15 @@ function renderPortfolio(data: ProfileResponse) {
       </section>
 
       <section class="card">
+        <h3>Explore Expertise</h3>
+        <div class="seo-links">
+          <a href="/blockchain-engineer.html">Blockchain Engineer Profile</a>
+          <a href="/web3-developer.html">Web3 Developer Profile</a>
+          <a href="/fintech-engineer.html">Fintech Engineer Profile</a>
+        </div>
+      </section>
+
+      <section class="card">
         <h3>About Me</h3>
         <p class="about-me">${data.aboutMe}</p>
       </section>

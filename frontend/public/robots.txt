@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://krakenteam.netlify.app/sitemap.xml
