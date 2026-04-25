@@ -12,6 +12,7 @@
 body {
   margin: 0;
   background: radial-gradient(circle at top, #10151f, #090b10 45%);
+  color: #e5e7eb;
 }
 
 #app {
@@ -39,11 +40,21 @@ body {
   padding-right: 8rem;
 }
 
+.brand-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
 .tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   color: #60a5fa;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 .brand-logo {
@@ -62,6 +73,19 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #334155;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 1.5rem;
+  right: 8.4rem;
+  border: 1px solid #334155;
+  background: #111827;
+  color: #e5e7eb;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
 }
 
 h1 {
@@ -195,15 +219,66 @@ ul {
   color: #9ca3af;
 }
 
+body.theme-light {
+  background: radial-gradient(circle at top, #f3f8ff, #e6ecf7 45%);
+  color: #0f172a;
+}
+
+body.theme-light .hero,
+body.theme-light .card {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #d4dce8;
+}
+
+body.theme-light .location,
+body.theme-light .summary,
+body.theme-light .period,
+body.theme-light .footer,
+body.theme-light .skills span {
+  color: #334155;
+}
+
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4 {
+  color: #0f172a;
+}
+
+body.theme-light .theme-toggle {
+  background: #eff6ff;
+  color: #0f172a;
+  border-color: #93c5fd;
+}
+
+body.theme-light .project,
+body.theme-light .media-card,
+body.theme-light .tech-logos img,
+body.theme-light .skills span {
+  background: #f8fbff;
+  border-color: #d4dce8;
+}
+
 @media (max-width: 768px) {
   .hero {
     padding-right: 1.5rem;
+  }
+
+  .brand-row {
+    width: 100%;
+    justify-content: center;
   }
 
   .profile-photo {
     position: static;
     display: block;
     margin: 0 0 1rem auto;
+  }
+
+  .theme-toggle {
+    position: static;
+    display: inline-block;
+    margin-bottom: 0.75rem;
   }
 
   .media-grid {

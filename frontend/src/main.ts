@@ -126,8 +126,11 @@ function renderPortfolio(data: ProfileResponse) {
     <main class="page">
       <section class="hero">
         <img src="/1728869118367.jpeg" alt="Hendri profile photo" class="profile-photo" />
-        <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
-        <p class="tag">Kraken Team • Portfolio 2026</p>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+        <div class="brand-row">
+          <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
+          <p class="tag">Kraken Team • Portfolio 2026</p>
+        </div>
         <h1>${data.name}</h1>
         <h2>${data.title}</h2>
         <p class="location">${data.location}</p>
@@ -211,4 +214,31 @@ function renderPortfolio(data: ProfileResponse) {
   `;
 }
 
-void loadProfile();
+function applyTheme(theme: "dark" | "light") {
+  document.body.classList.toggle("theme-light", theme === "light");
+}
+
+function setupThemeToggle() {
+  const saved = localStorage.getItem("portfolio-theme");
+  const initialTheme: "dark" | "light" = saved === "light" ? "light" : "dark";
+  applyTheme(initialTheme);
+
+  const button = document.querySelector<HTMLButtonElement>("#theme-toggle");
+  if (!button) return;
+
+  const setButtonLabel = () => {
+    button.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode";
+  };
+  setButtonLabel();
+
+  button.addEventListener("click", () => {
+    const nextTheme: "dark" | "light" = document.body.classList.contains("theme-light") ? "dark" : "light";
+    applyTheme(nextTheme);
+    localStorage.setItem("portfolio-theme", nextTheme);
+    setButtonLabel();
+  });
+}
+
+void loadProfile().then(() => {
+  setupThemeToggle();
+});
