@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency</title>
+    <meta
+      name="description"
+      content="Cerita Hendri Rahmat Hendrianto tentang alasan membangun Findigi dan KVP: miskonsepsi on-ramp/off-ramp, on-chain/cross-chain/swap, keterbatasan EVM-centric approach, dan desain ledger-based POSA."
+    />
+    <link rel="canonical" href="https://krakenteam.netlify.app/why-i-built-findigi-kvp.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency" />
+    <meta
+      property="og:description"
+      content="A technical narrative about on-ramp/off-ramp misconceptions, cross-chain swap realities, and why KVP is built as a ledger-based POSA protocol."
+    />
+    <meta property="og:url" content="https://krakenteam.netlify.app/why-i-built-findigi-kvp.html" />
+    <meta property="og:image" content="https://krakenteam.netlify.app/blog-assets/story-blockchain.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Why I Built Findigi and KVP" />
+    <meta
+      name="twitter:description"
+      content="From fintech rails to protocol design: the engineering reason behind building Findigi and KVP."
+    />
+    <meta name="twitter:image" content="https://krakenteam.netlify.app/blog-assets/story-blockchain.svg" />
+    <style>
+      body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: radial-gradient(circle at top, #111b31, #0b1220 45%); color: #e2e8f0; line-height: 1.75; }
+      main { width: min(960px, 92%); margin: 2rem auto; }
+      article { border: 1px solid #243249; border-radius: 16px; padding: 1.4rem; background: #0f172a; box-shadow: 0 10px 26px rgba(2, 6, 23, 0.28); }
+      h1, h2 { line-height: 1.3; }
+      h1 { margin-top: 0; }
+      .meta { color: #94a3b8; font-size: 0.95rem; }
+      .img-wrap { border: 1px solid #334155; border-radius: 12px; padding: 0.8rem; background: #111c31; margin: 0.6rem 0 1rem; text-align: center; }
+      .img-wrap img { max-width: 100%; height: 230px; object-fit: contain; }
+      .note { border-left: 3px solid #38bdf8; background: rgba(56, 189, 248, 0.1); border-radius: 8px; padding: 0.75rem; }
+      .refs li { margin-bottom: 0.35rem; }
+      a { color: #93c5fd; text-decoration: none; }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency",
+        "author": {
+          "@type": "Person",
+          "name": "Hendri Rahmat Hendrianto"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Kraken Team"
+        },
+        "datePublished": "2026-04-25",
+        "dateModified": "2026-04-25",
+        "mainEntityOfPage": "https://krakenteam.netlify.app/why-i-built-findigi-kvp.html"
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <article>
+        <h1>Why I Built Findigi and KVP</h1>
+        <p class="meta">By Hendri Rahmat Hendrianto • Updated Apr 25, 2026</p>
+
+        <div class="img-wrap">
+          <img src="/blog-assets/story-blockchain.svg" alt="Blockchain concept visual from Wikimedia Commons" />
+        </div>
+
+        <p>
+          Banyak orang mencampur istilah <strong>on-ramp</strong>, <strong>off-ramp</strong>, <strong>on-chain</strong>,
+          <strong>cross-chain</strong>, dan <strong>swap</strong> seolah semuanya sama. Bagi saya, ini sumber salah desain
+          produk. On-ramp/off-ramp adalah jembatan fiat ke aset digital, sementara on-chain/cross-chain/swap adalah layer
+          eksekusi di ledger dan jaringan.
+        </p>
+
+        <h2>Miskonsepsi yang Saya Temui di Lapangan</h2>
+        <p>
+          Di banyak implementasi, arsitektur payment dan blockchain digabung tanpa batas yang jelas. Akibatnya, orang
+          mengira sudah membangun sistem Web3 lengkap, padahal hanya menumpuk fitur tanpa settlement model yang kuat.
+          Di Findigi, saya membedakan tegas:
+        </p>
+        <ul>
+          <li>On-ramp/off-ramp untuk alur fiat-crypto</li>
+          <li>On-chain execution untuk settlement internal</li>
+          <li>Cross-chain untuk interoperability</li>
+          <li>Bridge swap (crosschain-swap) untuk perpindahan lintas jaringan</li>
+        </ul>
+
+        <h2>Kenapa Saya Kritis pada EVM-Centric Mindset</h2>
+        <div class="img-wrap">
+          <img src="/blog-assets/story-evm.svg" alt="EVM ecosystem visual from Wikimedia Commons" />
+        </div>
+        <p>
+          Banyak project bangga memakai EVM di chain lain. Itu cepat untuk go-to-market, tapi sering membuat orang lupa
+          soal kontrol arsitektur, audit boundary, dan dependency governance. Saya memilih membangun KVP sebagai
+          <strong>ledger-based protocol</strong> agar economic rules tidak rentan dikotak-kotakkan di contract layer.
+        </p>
+
+        <h2>KVP: Ledger-Based POSA Protocol</h2>
+        <p>
+          KVP menggabungkan pendekatan <strong>Proof of Stake + Proof of Authority</strong> (POSA). Di desain ini,
+          tokenomic utama tidak ditaruh di smart contract melainkan di level sistem protokol agar rule enforcement lebih
+          deterministic dan lebih sulit dimanipulasi untuk skema scam.
+        </p>
+
+        <div class="note">
+          Findigi saat ini masih alpha test. Roadmap saya jelas: saat KVP mature, core settlement Findigi akan ditarik
+          bertahap ke KVP blockchain agar integrasi vertikalnya utuh dari produk hingga protokol.
+        </div>
+
+        <h2>Kenapa Saya Bangun Findigi dan KVP Bersamaan</h2>
+        <p>
+          Karena saya tidak ingin membangun hanya narasi teknis. Findigi adalah produk validasi use case nyata,
+          sedangkan KVP adalah fondasi jangka panjang. Keduanya satu strategi: product realism + protocol sovereignty.
+        </p>
+
+        <h2>Wikipedia References</h2>
+        <ul class="refs">
+          <li><a href="https://en.wikipedia.org/wiki/Fiat_money" target="_blank" rel="noreferrer">Fiat money</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/On-chain_and_off-chain_transactions" target="_blank" rel="noreferrer">On-chain and off-chain transactions</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Atomic_swap" target="_blank" rel="noreferrer">Atomic swap</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Cross-chain" target="_blank" rel="noreferrer">Cross-chain</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Ethereum_Virtual_Machine" target="_blank" rel="noreferrer">Ethereum Virtual Machine (EVM)</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Proof_of_stake" target="_blank" rel="noreferrer">Proof of stake</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Proof_of_authority" target="_blank" rel="noreferrer">Proof of authority</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Smart_contract" target="_blank" rel="noreferrer">Smart contract</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Tokenomics" target="_blank" rel="noreferrer">Tokenomics</a></li>
+        </ul>
+
+        <p>
+          <a href="mailto:rahmathst99@gmail.com?subject=Findigi%20and%20KVP%20Discussion">Ask personally via email</a>
+          •
+          <a href="/">Back to main portfolio</a>
+        </p>
+      </article>
+    </main>
+  </body>
+</html>
