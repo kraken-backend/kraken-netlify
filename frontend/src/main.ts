@@ -11,6 +11,7 @@ type ProfileResponse = {
     linkedin: string;
     github: string;
     youtube: string;
+    discord: string;
   };
   highlights: string[];
   projects: Array<{
@@ -20,6 +21,7 @@ type ProfileResponse = {
     url?: string;
   }>;
   skills: string[];
+  communities: string[];
 };
 
 const apiBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
@@ -35,7 +37,8 @@ const fallbackProfile: ProfileResponse = {
     mobile: "082167711689",
     linkedin: "https://linkedin.com/in/hendri-rahmat-hendrianto-6897b22a",
     github: "https://github.com/kraken-backend",
-    youtube: "https://youtube.com/@hendrirh"
+    youtube: "https://youtube.com/@hendrirh",
+    discord: "hendrirh"
   },
   highlights: [
     "Built Layer-1 KVP Protocol with Go then migrated to Rust, deterministic state machine and protocol-level tokenomics.",
@@ -87,6 +90,13 @@ const fallbackProfile: ProfileResponse = {
     "Ethers.js",
     "WebSockets",
     "gRPC"
+  ],
+  communities: [
+    "Solana Developers Community",
+    "Polygon Official Community",
+    "Solana Official Community",
+    "Ethereum Official Community",
+    "Pi Network Community"
   ]
 };
 
@@ -115,6 +125,7 @@ function renderPortfolio(data: ProfileResponse) {
   return `
     <main class="page">
       <section class="hero">
+        <img src="/1728869118367.jpeg" alt="Hendri profile photo" class="profile-photo" />
         <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
         <p class="tag">Kraken Team • Portfolio 2026</p>
         <h1>${data.name}</h1>
@@ -125,6 +136,7 @@ function renderPortfolio(data: ProfileResponse) {
           <a href="${data.contact.linkedin}" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="${data.contact.github}" target="_blank" rel="noreferrer">GitHub</a>
           <a href="${data.contact.youtube}" target="_blank" rel="noreferrer">YouTube</a>
+          <a href="https://discord.com/" target="_blank" rel="noreferrer">Discord: ${data.contact.discord}</a>
           <a href="mailto:${data.contact.email}">Email</a>
         </div>
       </section>
@@ -182,6 +194,13 @@ function renderPortfolio(data: ProfileResponse) {
           <img src="/solidity ether.png" alt="Solidity and Ethereum" />
           <img src="/web3-2.png" alt="Web3" />
         </div>
+      </section>
+
+      <section class="card">
+        <h3>Developer Communities</h3>
+        <ul>
+          ${data.communities.map((community) => `<li>${community}</li>`).join("")}
+        </ul>
       </section>
 
       <footer class="footer">
