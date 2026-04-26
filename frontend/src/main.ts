@@ -222,6 +222,7 @@ function renderPortfolio(data: ProfileResponse) {
       <section class="card">
         <h3>Latest Insight</h3>
         <div class="seo-links">
+          <a href="/k-dec-theory.html">K-DEC: Teori Ekonomi Deterministik yang Saya Ciptakan untuk KVP Blockchain</a>
           <a href="/kvp-layer1-architecture-journey.html">How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</a>
           <a href="/why-i-built-findigi-kvp.html">Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency</a>
         </div>

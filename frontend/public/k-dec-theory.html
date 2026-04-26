@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K-DEC: Teori Ekonomi Deterministik untuk KVP Blockchain | Hendri Rahmat</title>
+    <meta name="description" content="Artikel tentang creation K-DEC (Krakenum Deterministic Economic Continuum) - teori formal yang menghubungkan ledger finality dengan economic finality dalam blockchain. Dari frustration melihat ekonomi dan teknik terpisah, lahir teori baru." />
+    <meta name="keywords" content="K-DEC, Krakenum, blockchain, cryptocurrency, economic finality, ledger finality, Proof of Stake, POSA, KVC, tokenomics, blockchain theory, Hendri Rahmat" />
+    <meta name="author" content="Hendri Rahmat Hendrianto" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://krakenteam.netlify.app/k-dec-theory.html" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://krakenteam.netlify.app/k-dec-theory.html" />
+    <meta property="og:title" content="K-DEC: Teori Ekonomi Deterministik untuk KVP Blockchain" />
+    <meta property="og:description" content="Saya menciptakan teori K-DEC karena frustration melihat blockchain bicara teknis tapi ekonomi-nya tidak bisa diaudit. Ini cerita lengkapnya." />
+    <meta property="og:image" content="https://krakenteam.netlify.app/blog-assets/kvp-cover.jpg" />
+    <meta property="og:image:alt" content="K-DEC Theory - Blockchain Economic Finality" />
+    <meta property="og:site_name" content="Kraken Team Portfolio" />
+    <meta property="article:published_time" content="2026-04-26T00:00:00+07:00" />
+    <meta property="article:modified_time" content="2026-04-26T00:00:00+07:00" />
+    <meta property="article:author" content="https://krakenteam.netlify.app/" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://krakenteam.netlify.app/k-dec-theory.html" />
+    <meta name="twitter:title" content="K-DEC: Teori Ekonomi Deterministik untuk KVP Blockchain" />
+    <meta name="twitter:description" content="Dari frustration ke theory - bagaimana saya menciptakan K-DEC untuk blockchain yang ekonominya bisa diaudit." />
+    <meta name="twitter:image" content="https://krakenteam.netlify.app/blog-assets/kvp-cover.jpg" />
+    <meta name="twitter:site" content="@hendrirh" />
+    <meta name="twitter:creator" content="@hendrirh" />
+    
+    <!-- Google SEO / Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "K-DEC: Teori Ekonomi Deterministik yang Saya Ciptakan untuk KVP Blockchain",
+        "description": "Artikel ini menceritakan perjalanan menciptakan K-DEC (Krakenum Deterministic Economic Continuum): teori formal yang menghubungkan ledger finality dengan economic finality dalam ekosistem blockchain.",
+        "image": "https://krakenteam.netlify.app/blog-assets/kvp-cover.jpg",
+        "datePublished": "2026-04-26",
+        "dateModified": "2026-04-26",
+        "author": {
+          "@type": "Person",
+          "name": "Hendri Rahmat Hendrianto",
+          "url": "https://krakenteam.netlify.app/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Kraken Team",
+          "url": "https://krakenteam.netlify.app/"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://krakenteam.netlify.app/k-dec-theory.html"
+        },
+        "keywords": ["K-DEC", "Krakenum", "blockchain", "economic finality", "ledger finality", "POSA", "KVC", "tokenomics"]
+      }
+    </script>
+    
+    <!-- FAQ Schema for Google -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Apa itu K-DEC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "K-DEC (Krakenum Deterministic Economic Continuum) adalah teori formal yang menghubungkan ledger finality dengan economic finality dalam satu framework."
+            }
+          },
+          {
+            "@type": "Question", 
+            "name": "Apa bedanya KVP dengan blockchain lain?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "KVP bukan turunan EVM, menggunakan POSA consensus, native coin KVC (bukan ERC-20), dan embedded economic policy di level protokol."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Mengapa economic finality penting?",
+            "acceptedAnswer": {
+              "@type": "Answer", 
+              "text": "Karena banyak blockchain hanya mengukur ledger finality - apakah transaksi di-blok. Tapi tidak mengukur apakah state ekonomi juga final dan bisa diaudit. K-DEC memperkenalkan bahwa keduanya harus dicek bersamaan."
+            }
+          }
+        ]
+      }
+    </script>
+    
+    <style>
+      body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: radial-gradient(circle at top, #111b31, #0b1220 45%); color: #e2e8f0; line-height: 1.75; }
+      main { width: min(960px, 92%); margin: 2rem auto; }
+      article { border: 1px solid #243249; border-radius: 16px; padding: 1.4rem; background: #0f172a; box-shadow: 0 10px 26px rgba(2, 6, 23, 0.28); }
+      h1, h2, h3 { line-height: 1.3; }
+      h1 { margin-top: 0; font-size: 1.8rem; }
+      h2 { margin-top: 2rem; font-size: 1.3rem; color: #7dd3fc; }
+      h3 { margin-top: 1.5rem; font-size: 1.1rem; color: #a5b4fc; }
+      .meta { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1rem; }
+      .img-inline { display: inline-block; vertical-align: middle; margin: 0.5rem 1rem 0.5rem 0; }
+      .img-inline.img-right { margin: 0.5rem 0 0.5rem 1rem; }
+      .img-inline img { max-height: 100px; width: auto; }
+      .img-inline.logo img { max-height: 60px; }
+      .img-inline.diagram img { max-height: 140px; }
+      .clear { clear: both; }
+      .note { border-left: 3px solid #38bdf8; background: rgba(56, 189, 248, 0.1); border-radius: 8px; padding: 0.75rem; margin: 1rem 0; }
+      .highlight { background: linear-gradient(135deg, #1e3a5f, #0f2744); border-radius: 12px; padding: 1rem; margin: 1.2rem 0; }
+      .equation { font-family: 'Fira Code', monospace; background: #1e293b; padding: 0.8rem 1rem; border-radius: 8px; margin: 0.8rem 0; overflow-x: auto; font-size: 0.9rem; }
+      .comparison-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+      .comparison-table th, .comparison-table td { border: 1px solid #334155; padding: 0.6rem; text-align: left; }
+      .comparison-table th { background: #1e293b; }
+      .comparison-table td { background: #0f172a; }
+      .refs li { margin-bottom: 0.35rem; }
+      .theme-toggle { position: fixed; top: 14px; right: 14px; z-index: 10; border: 1px solid #334155; background: #111827; color: #e5e7eb; border-radius: 999px; font-size: 0.82rem; padding: 0.35rem 0.75rem; cursor: pointer; }
+      a { color: #93c5fd; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      body.theme-light { background: radial-gradient(circle at top, #f3f8ff, #e7eef8 45%); color: #0f172a; }
+      body.theme-light article { background: rgba(255, 255, 255, 0.95); border-color: #d4dce8; box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12); }
+      body.theme-light .meta { color: #475569; }
+      body.theme-light .img-wrap { }
+      body.theme-light .img-inline { }
+      body.theme-light .note { border-left-color: #0284c7; background: #ecfeff; }
+      body.theme-light .theme-toggle { background: #eff6ff; color: #0f172a; border-color: #93c5fd; }
+      body.theme-light .highlight { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+      body.theme-light .equation { background: #f1f5f9; }
+      body.theme-light .comparison-table th { background: #e2e8f0; }
+      body.theme-light .comparison-table td { background: #fff; }
+    </style>
+  </head>
+  <body>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+    <main>
+      <article>
+        <h1>K-DEC: Teori Ekonomi Deterministik untuk KVP Blockchain</h1>
+        <p class="meta">By Hendri Rahmat Hendrianto • Published Apr 26, 2026</p>
+
+        <p>
+          Pernahkah Anda bertanya, mengapa banyak blockchain yang <em>teknis</em> berhasil, tapi <em>ekonomi</em>-nya ribet? Atau sebaliknya, ekonominya menarik tapi <em>ledger</em>-nya sulit diaudit? Saya juga. Dan dari pertanyaan itu, saya menciptakan sesuatu yang namanya <strong>K-DEC</strong>.
+        </p>
+
+        <div class="note">
+          <strong>Preview:</strong> Artikel ini akan membawa Anda dari sejarah blockchain, ke frustrasi yang saya alami di lapangan, sampai ke creation teori baru yang memformalkan hubungan antara <em>ledger finality</em> dan <em>economic finality</em>. Siap? Mari kita mulai.
+        </div>
+
+        <h2>Bagian 1: Mari Kita Mulai dari Sejarah</h2>
+        
+        <p>
+          Untuk memahami mengapa K-DEC diperlukan, kita perlu lihat dulu bagaimana blockchain berkembang. Ini bukan sekadar sejarah - ini tentang <strong>apa yang sudahdicoba</strong> dan <strong>apa yang masih kurang</strong>.
+        </p>
+
+        <h3>Era 1: Bitcoin dan Ledger Sederhana (2009-2013)</h3>
+        
+        <p>
+          <img src="/blog-assets/bitcoin_logo.png" alt="Bitcoin" class="img-inline logo" style="height: 50px;" />
+         Pada awal, blockchain sangat sederhana. <strong>Bitcoin</strong>, yang diperkenalkan oleh Satoshi Nakamoto pada tahun 2008 dan launched Januari 2009, menggunakan <strong>Proof of Work (PoW)</strong>. Sistem ini memastikan keamanan melalui komputasi - semakin banyak hash yang dihitung, semakin aman jaringan.
+        </p>
+        <p>
+          Masalah utama PoW: <strong>energi yang sangat besar</strong> dan <strong>skalabilitas yang terbatas</strong>. Bitcoin menggunakan mekanisme probabilistic finality - semakin dalam blok berada di chain, semakin mahal untuk mengubahnya.
+        </p>
+
+        <h3>Era 2: Ethereum dan Smart Contracts (2015-2018)</h3>
+        
+        <p>
+          <img src="/blog-assets/ethereum-logo.jpg" alt="Ethereum" class="img-inline logo" style="height: 50px;" />
+          Tahun 2015, Vitalik Buterin meluncurkan <strong>Ethereum</strong> - blockchain pertama dengan <strong>smart contracts</strong>. Ini adalah lompatan besar: dari sistem pembayaran sederhana menjadi platform programmable. Developer bisa menulis kode yang berjalan sendiri di blockchain.
+        </p>
+        <p>
+          Namun ini juga membawa masalah baru: ketika smart contract berjalan, siapa yang bertanggung jawab jika ada bug? Bagaimana jika ekonominya tidak sinkron dengan ledger? Dari sinilah sebagian besar <em>DeFi hacks</em> bermula - bukan masalah ledger, tapi masalah antara ledger dan ekonomi.
+        </p>
+
+        <h3>Era 3: Skalabilitas dan Konsensus Baru (2018-2022)</h3>
+        <p>
+          Muncul berbagai solusi: Proof of Stake (PoS), Delegated PoS, Proof of Authority (PoA), dan lain-lain. Ethereum melakukan <em>The Merge</em> pada September 2022 - transisi dari PoW ke PoS, mengurangi konsumsi energi lebih dari 99%.
+        </p>
+        <p>
+          Tapi satu pertanyaan masih sering terlewat: <strong>economic finality</strong>. Kita bicara finality hanya di level ledger (blok tidak bisa di-revert), tapi tidak secara ekonomi (apakah state ekonomi benar-benar final dan bisa diaudit?).
+        </p>
+
+        <div class="highlight">
+          <p><strong>Observation yang membuat saya thinking:</strong> Sebagian besar blockchain berbicara tentang <em>consensus</em> dan <em>finality</em> hanya di level teknis. Mereka jarang berbicara tentang <strong>economic consistency</strong> - apakah state ekonomi juga final? Apakah policy yang mengatur ekonomi bisa diverifikasi seperti ledger?</p>
+        </div>
+
+        <h2>Bagian 2: Apa Itu KVP dan Mengapa KVP Berbeda?</h2>
+
+        <p>
+          <img src="/blog-assets/kvp_illustration.jpg" alt="KVP" class="img-inline" style="height: 100px; float: right; margin-left: 1rem;" />
+          <strong>KVP (Krakenum Velocity Protocol)</strong> adalah blockchain yang saya bangun dari 2015, dengan beberapa prinsip yang berbeda dari chainchain lain:
+        </p>
+        <p class="clear">
+          <strong>KVP</strong> memadukan konsep-konsep berikut yang membedakannya darichain lain:
+        </p>
+
+        <h3>KVP Bukan Turunan EVM atau BTC</h3>
+        <p>
+          Banyak chain baru mengatakan <em>"kami EVM-compatible"</em> atau <em>"kami fork Bitcoin"</em>. EVM-compatible itu cepat untuk go-to-market, tapi: Anda seringkali tidak memiliki kendali penuh atas arsitektur. Jika ada bug di layer ekonomi, fix-nya kompleks.
+        </p>
+<p>
+          Selain dari itu, ada masalah yang lebih mendasar: <strong>biaya RPC dan akses developer</strong>. Saya pernah mengalami sendiri - project saya stuck karena RPC testnet yang gratuitas selalu timeout atau rate-limited. Untuk mengharapkan RPC yang stabil itu butuh biaya yang tidak murah bagi developer kecil. Akhirnya project jadi tergantung pada layanan pihak ketiga yang mahal.
+        </p>
+        <p>
+          Kasus lain: Solana - untuk mendapatkan koin dev (airdrop buat testing) saja harus meminta-minta ke komunitas, kadang tidak dikasih. Polygon agak lebih baik, tapi RPC Amoy juga pernah tersendat. Ini membuat proses development menjadi frustrasi dan project jadi tidak selesai.
+        </p>
+        <p>
+          KVP dibangun dari nol dengan Rust untuk runtime dan Go untuk gateway. Ini memberikan <strong>kendali penuh</strong> atas economic rules - tidak perlu <em>contract layer</em> untuk hal-hal yang seharusnya di level protokol.
+        </p>
+
+        <h3>KVP Menggunakan POSA (Proof of Stake + Authority)</h3>
+        <p>
+          KVP menggabungkan PoS dan PoA. Mengapa? Karena:
+        </p>
+        <ul>
+          <li><strong>PoS</strong> memberikan insentif ekonomi - validator stake token, mereka ingin jaringan tetap sehat</li>
+          <li><strong>PoA</strong> memberikan accountability - identitas validator diketahui, reputasi dipertaruhkan</li>
+        </ul>
+
+        <h3>Native Coin: KVC (Bukan ERC-20)</h3>
+        <p>
+          Banyak proyek membuat token sebagai ERC-20 di Ethereum. Ini mudah, tapi: Anda tergantung pada keamanan Ethereum.
+        </p>
+        <p>
+          KVP menggunakan <strong>KVC</strong> sebagai native coin - bukan smart contract. Ini berarti economic rules di-embed langsung di protokol, bukan di contract layer yang terpisah.
+        </p>
+
+        <h3>DB-Domain Separation yang Tegas</h3>
+        <p>
+          KVP memisahkan empat bounded contexts secara ketat:
+        </p>
+        <table class="comparison-table">
+          <tr><th>Database</th><th>Fungsi</th><th>Engine</th></tr>
+          <tr><td>DB-1</td><td>Chain State (Ledger & Consensus)</td><td>RocksDB</td></tr>
+          <tr><td>DB-2</td><td>Wallet Application (User, Passkey, Session)</td><td>PostgreSQL/SQLite</td></tr>
+          <tr><td>DB-3</td><td>Indexer/Explorer (Read Model)</td><td>PostgreSQL</td></tr>
+          <tr><td>DB-4</td><td>Governance & Audit Trail</td><td>PostgreSQL</td></tr>
+        </table>
+        <p>
+          Mengapa ini penting? Karena <strong>economic policy tidak boleh bercampur dengan user login</strong>. Jika kedua domain bercampur, audit menjadi sangat sulit.
+        </p>
+
+        <div class="note">
+          <strong>Implikasi:</strong> Dengan arsitektur ini, KVP bisa menjawab pertanyaan kritis: <em>"Apa yang berubah, kapan berubah, mengapa berubah, dan apakah hasilnya bisa direproduksi di node lain?"</em> - pertanyaan yang seringkali tidak bisa dijawab di chainchain lain.
+        </div>
+
+        <h2>Bagian 3: Dari Frustration ke Teori - K-DEC</h2>
+
+        <div class="highlight">
+          <p><strong>Awal dari semuanya:</strong> Saya melihat ratusan proyek blockchain yang secara teknis canggih, tapi ketika ditanya tentang <em>economic consistency</em> - mereka tidak memiliki jawaban yang memuaskan. Saya thinking: bukankah seharusnya ada framework formal yang menghubungkan ledger correctness dengan economic correctness?</p>
+        </div>
+
+        <h3>Apa itu K-DEC?</h3>
+        
+        <p>
+          <img src="/blog-assets/k-dec_illustration.png" alt="K-DEC" class="img-inline diagram" style="height: 120px; float: right; margin-left: 1rem;" />
+          <strong>K-DEC (Krakenum Deterministic Economic Continuum)</strong> adalah teori formal yang saya ciptakan untuk memformalkan hubungan antara <em>ledger finality</em> dan <em>economic finality</em> dalam satu kerangka yang konsisten.
+        </p>
+
+        <h3>K-DEC Equations</h3>
+        <p>
+          K-DEC terdiri dari beberapa persamaan utama:
+        </p>
+
+        <div class="equation">
+          <strong>F_K(t) = F_L(t) × F_E(t)</strong><br/>
+          <em style="color: #94a3b8;">Anchor function: menggabungkan Ledger Finality dengan Economic Finality</em>
+        </div>
+
+        <div class="equation">
+          <strong>EFG(t) = |F_L(t) - F_E(t)|</strong><br/>
+          <em style="color: #94a3b8;">Economic-Financial Gap: mengukur ketidaksesuaian antara ledger dan ekonomi</em>
+        </div>
+
+        <div class="equation">
+          <strong>S[t+1] = S[t] - Σ(Burn[t]) + Mint[t] - Leak[t]</strong><br/>
+          <em style="color: #94a3b8;">State transition: bagaimana supply berubah setiap epoch</em>
+        </div>
+
+        <h3>Apa Makna Persamaan ini?</h3>
+        <p>Mari kita pecah:</p>
+        <ul>
+          <li><strong>F_L(t)</strong> = Ledger Finality pada waktu t (apakah blok sudah final di level konsensus?)</li>
+          <li><strong>F_E(t)</strong> = Economic Finality pada waktu t (apakah state ekonomi juga sudah final dan bisa diaudit?)</li>
+          <li><strong>F_K(t)</strong> = K-DEC Finality - kedua harus terpenuhi bersamaan</li>
+          <li><strong>EFG(t)</strong> = Economic-Financial Gap - semakin kecil semakin baik</li>
+        </ul>
+
+        <div class="highlight">
+          <p><strong>Intuisi di balik K-DEC:</strong> Dalam banyak sistem, kita hanya mengukur <em>ledger finality</em> - apakah transaksi sudah di-blok. Tapi kita tidak mengukur <em>economic finality</em> - apakah saldo/kebijakan ekonomi juga sudah final. K-DEC memperkenalkan bahwa keduanya harus dicek bersamaan, seperti dua sisi mata uang yang tidak boleh terpisah.</p>
+        </div>
+
+        <h2>Bagian 4: Apa Bedanya dengan Chain Lain?</h2>
+
+        <table class="comparison-table">
+          <tr><th>Aspek</th><th>Chain Konvensional</th><th>KVP dengan K-DEC</th></tr>
+          <tr><td>Economic policy</td><td>Di smart contract</td><td>Di level protokol (embedded)</td></tr>
+          <tr><td>Finality hanya...</td><td>Ledger-based</td><td>Ledger + Economic (K-DEC)</td></tr>
+          <tr><td>Audit trail</td><td>Perlu tools tambahan</td><td>Native di ledger:* keyspace</td></tr>
+          <tr><td>Native coin</td><td>ERC-20 / SPL token</td><td>KVC (protocol-level)</td></tr>
+          <tr><td>Governance model</td><td>Terpisah dari protokol</td><td>POSA + Gate lifecycle</td></tr>
+        </table>
+
+        <h2>Bagian 5: Mengapa Ini Penting untuk Ecosystem?</h2>
+
+        <p>
+          Ada beberapa alasan mengapa K-DEC relevan untuk ecosystem:
+        </p>
+
+        <h3>1. Economic Accountability</h3>
+        <p>
+          Banyak <em>"blockchain"</em> yang sebenarnya tidak bisa diaudit secara ekonomi. Dengan K-DEC, setiap perubahan ekonomi tercatat di ledger dan bisa di-replay dari genesis. Ini penting untuk:
+        </p>
+        <ul>
+          <li>Institusi yang butuh audit trail</li>
+          <li>Regulator yang butuh transparency</li>
+          <li>Partner yang butuh bukti operasional</li>
+        </ul>
+
+        <h3>2. Policy Integrity</h3>
+        <p>
+          Dengan K-DEC, policy ekonomi tidak bisa begitu saja diubah tanpa catatan. Setiap perubahan menghasilkan hash baru, mirip dengan Git commit tapi untuk ekonomi. Ini mencegah <em>"silent policy drift"</em> yang seringkali menjadi sumber dispute.
+        </p>
+
+        <h3>3. Cross-Domain Integration</h3>
+        <p>
+          Ketika Anda membangun produk yang melibatkan multiple domains (game economy + DeFi + payment), Anda butuh <strong>satu sumber kebenaran ekonomi</strong>. KVP menyediakan ini melalui ledger-centric approach.
+        </p>
+
+        <h2>Bagian 6: Bagaimana Cara Menggunakan K-DEC?</h2>
+
+        <p>
+          K-DEC bukan hanya teori - ini adalah framework operasional. Beberapa aplikasi:
+        </p>
+
+        <h3>Diagnostics</h3>
+        <p>
+          Anda bisa mengukur EFG(t) untuk melihat seberapa jauh ledger dan ekonomi diverge. Semakin tinggi EFG, semakin besar risiko.
+        </p>
+
+        <h3>Policy Design</h3>
+        <p>
+          Ketika merancang economic policy baru, Anda bisa simulate menggunakan persamaan K-DEC sebelum deploy ke mainnet.
+        </p>
+
+        <h3>Operational Monitoring</h3>
+        <p>
+          Di dashboard operasional, Anda bisa plot F_L(t) dan F_E(t) bersamaan - jika mereka mulai diverge, itu tanda peringatan awal.
+        </p>
+
+        <h2>Referensi dan Bacaan Lanjutan</h2>
+        <ul class="refs">
+          <li><a href="https://en.wikipedia.org/wiki/Blockchain" target="_blank" rel="noreferrer">Blockchain - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Bitcoin" target="_blank" rel="noreferrer">Bitcoin - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Ethereum" target="_blank" rel="noreferrer">Ethereum - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Proof_of_authority" target="_blank" rel="noreferrer">Proof of Authority - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Proof_of_stake" target="_blank" rel="noreferrer">Proof of Stake - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Finality" target="_blank" rel="noreferrer">Finality in Blockchains - Wikipedia</a></li>
+          <li><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/poa/" target="_blank" rel="noreferrer">Proof of Authority - ethereum.org</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/List_of_blockchains" target="_blank" rel="noreferrer">List of Blockchains - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Smart_contract" target="_blank" rel="noreferrer">Smart Contract - Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Tokenomics" target="_blank" rel="noreferrer">Tokenomics - Wikipedia</a></li>
+        </ul>
+
+        <h2>Penutup</h2>
+
+        <p>
+          K-DEC lahir dari frustration melihat bahwa terlalu banyak blockchain berbicara tentang <em>"kecepatan"</em> dan <em>"skalabilitas"</em> tanpa berbicara tentang <em>"economic consistency"</em>. Seperti yang sering saya ucapkan: <strong>jika sistem Anda secara teknis benar tapi secara ekonomi tidak bisa diaudit, maka ia tidak benar-benar benar</strong>.
+        </p>
+
+        <p>
+          Saya tidak mengklaim K-DEC adalah jawaban akhir. Tapi mudah-mudah artikel ini membuat Anda thinking - apakah chain yang Anda gunakan atau bangun memiliki framework untuk mengukur economic finality, bukan hanya ledger finality?
+        </p>
+
+        <div class="note">
+          <strong>Pertanyaan untuk diskusi:</strong> Apa yang Anda pikirkan tentang K-DEC? Apakah economic finality adalah sesuatu yang pernah Anda pikirkan dalam proyek Anda? <a href="mailto:rahmathst99@gmail.com?subject=K-DEC%20Discussion">Mari kita diskusikan via email</a>.
+        </div>
+
+        <p style="margin-top: 2rem;">
+          <a href="/">← Kembali ke portfolio utama</a>
+        </p>
+      </article>
+    </main>
+    <script>
+      (function () {
+        const key = "kdec-theme";
+        const saved = localStorage.getItem(key);
+        if (saved === "light") document.body.classList.add("theme-light");
+        const btn = document.getElementById("theme-toggle");
+        const setLabel = function() {
+          btn.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode";
+        };
+        setLabel();
+        btn.addEventListener("click", function() {
+          document.body.classList.toggle("theme-light");
+          localStorage.setItem(key, document.body.classList.contains("theme-light") ? "light" : "dark");
+          setLabel();
+        });
+      })();
+    </script>
+  </body>
+</html>
