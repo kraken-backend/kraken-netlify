@@ -266,8 +266,8 @@ function renderPortfolio(data: ProfileResponse): string {
       <section class="hero">
         <img src="/1728869118367.jpeg" alt="Hendri profile photo" class="profile-photo" />
         <div class="controls-row">
-          <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Toggle language">${t.langToggle}</button>
-          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+          <button id="lang-toggle" class="ctrl-btn" type="button" aria-label="Toggle language">${t.langToggle}</button>
+          <button id="theme-toggle" class="ctrl-btn" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
         </div>
         <div class="brand-row">
           <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
