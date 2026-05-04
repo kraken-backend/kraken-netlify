@@ -264,14 +264,16 @@ function renderPortfolio(data: ProfileResponse): string {
   return `
     <main class="page">
       <section class="hero">
-        <img src="/1728869118367.jpeg" alt="Hendri profile photo" class="profile-photo" />
         <div class="controls-row">
           <button id="lang-toggle" class="ctrl-btn" type="button" aria-label="Toggle language">${t.langToggle}</button>
           <button id="theme-toggle" class="ctrl-btn" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
         </div>
-        <div class="brand-row">
-          <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
-          <p class="tag">${t.tagline}</p>
+        <div class="hero-top">
+          <img src="/1728869118367.jpeg" alt="Hendri profile photo" class="profile-photo" />
+          <div class="brand-row">
+            <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
+            <p class="tag">${t.tagline}</p>
+          </div>
         </div>
         <h1>${data.name}</h1>
         <h2>${data.title}</h2>
