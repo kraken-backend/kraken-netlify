@@ -1,85 +1,99 @@
 <!doctype html>
+<!-- Path: frontend/public/web3-developer.html -->
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web3 Developer Indonesia | Hendri Rahmat Hendrianto</title>
-    <meta
-      name="description"
-      content="Profile Web3 Developer Indonesia: Hendri Rahmat Hendrianto, mengembangkan sistem Web2+Web3, wallet infrastructure, AI agent, dan cross-chain product."
-    />
+    <meta name="description" content="Profile Web3 Developer Indonesia: Hendri Rahmat Hendrianto, mengembangkan sistem Web2+Web3, wallet infrastructure, AI agent, dan cross-chain product." />
     <link rel="canonical" href="https://krakenteam.netlify.app/web3-developer.html" />
     <meta property="og:title" content="Web3 Developer Indonesia | Hendri Rahmat Hendrianto" />
-    <meta
-      property="og:description"
-      content="Web3 engineering for production systems: wallet flows, dApp architecture, and AI-assisted fintech features."
-    />
+    <meta property="og:description" content="Web3 engineering for production systems: wallet flows, dApp architecture, and AI-assisted fintech features." />
     <meta property="og:url" content="https://krakenteam.netlify.app/web3-developer.html" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="https://krakenteam.netlify.app/blog-assets/bitcoin-golden-coin.jpg" />
+    <script type="application/ld+json">
+      { "@context": "https://schema.org", "@type": "WebPage", "name": "Web3 Developer Indonesia - Hendri Rahmat Hendrianto", "url": "https://krakenteam.netlify.app/web3-developer.html", "about": ["Web3 Development", "Wallet Integration", "dApp Architecture"], "author": { "@type": "Person", "name": "Hendri Rahmat Hendrianto" } }
+    </script>
     <style>
       body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: #0b1220; color: #e2e8f0; }
       main { width: min(900px, 92%); margin: 2.2rem auto; }
       .card { border: 1px solid #23314a; border-radius: 14px; padding: 1.2rem; background: #0f172a; }
       .cover { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; border: 1px solid #334155; margin: 0.5rem 0 1rem; }
-      .theme-toggle { position: fixed; top: 14px; right: 14px; z-index: 10; border: 1px solid #334155; background: #111827; color: #e5e7eb; border-radius: 999px; font-size: 0.82rem; padding: 0.35rem 0.75rem; cursor: pointer; }
+      .controls { position: fixed; top: 14px; right: 14px; z-index: 10; display: flex; gap: 8px; }
+      .ctrl-btn { border: 1px solid #334155; background: #111827; color: #e5e7eb; border-radius: 999px; font-size: 0.82rem; padding: 0.35rem 0.75rem; cursor: pointer; }
       h1 { margin-top: 0; }
       a { color: #93c5fd; text-decoration: none; }
+      ul { line-height: 1.7; }
       body.theme-light { background: #edf3fb; color: #0f172a; }
       body.theme-light .card { background: #ffffff; border-color: #d4dce8; }
       body.theme-light .cover { border-color: #d4dce8; }
-      body.theme-light .theme-toggle { background: #eff6ff; color: #0f172a; border-color: #93c5fd; }
-      ul { line-height: 1.7; }
+      body.theme-light .ctrl-btn { background: #eff6ff; color: #0f172a; border-color: #93c5fd; }
     </style>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Web3 Developer Indonesia - Hendri Rahmat Hendrianto",
-        "url": "https://krakenteam.netlify.app/web3-developer.html",
-        "about": ["Web3 Development", "Wallet Integration", "dApp Architecture"],
-        "author": {
-          "@type": "Person",
-          "name": "Hendri Rahmat Hendrianto"
-        }
-      }
-    </script>
   </head>
   <body>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+    <div class="controls">
+      <button id="lang-toggle" class="ctrl-btn" type="button">English</button>
+      <button id="theme-toggle" class="ctrl-btn" type="button">Light Mode</button>
+    </div>
     <main>
       <section class="card">
-        <h1>Web3 Developer Indonesia</h1>
-        <img class="cover" src="/blog-assets/bitcoin-golden-coin.jpg" alt="Web3 ecosystem visual from Wikimedia Commons" />
-        <p>
-          Hendri Rahmat Hendrianto membangun solusi Web3 production-grade melalui integrasi wallet, transaction
-          orchestration, API-driven architecture, dan pengembangan hybrid application Web2+Web3.
-        </p>
-        <h2>Web3 Technical Focus</h2>
-        <ul>
-          <li>Smart contract interaction and event indexing pipelines</li>
-          <li>Wallet and payment orchestration across multiple chains</li>
-          <li>dApp backend with Node.js, TypeScript, and scalable APIs</li>
-          <li>AI-assisted user flows for fintech and developer tools</li>
-        </ul>
-        <p><a href="/">Back to main portfolio</a></p>
+
+        <!-- ── ID ── -->
+        <div id="content-id">
+          <h1>Web3 Developer Indonesia</h1>
+          <img class="cover" src="/blog-assets/bitcoin-golden-coin.jpg" alt="Web3 ecosystem visual" />
+          <p>Hendri Rahmat Hendrianto membangun solusi Web3 production-grade melalui integrasi wallet, transaction orchestration, API-driven architecture, dan pengembangan hybrid application Web2+Web3.</p>
+          <h2>Fokus Teknis Web3</h2>
+          <ul>
+            <li>Smart contract interaction and event indexing pipelines</li>
+            <li>Wallet and payment orchestration across multiple chains</li>
+            <li>dApp backend with Node.js, TypeScript, and scalable APIs</li>
+            <li>Wallet integration: MetaMask, WalletConnect, Privy, Trust Wallet</li>
+            <li>AI-assisted user flows for fintech and developer tools</li>
+            <li>Ethers.js, Web3.js, Web3.py for on-chain interaction</li>
+          </ul>
+          <p><a href="/">← Kembali ke portfolio utama</a></p>
+        </div>
+
+        <!-- ── EN ── -->
+        <div id="content-en" style="display:none;">
+          <h1>Web3 Developer — Indonesia</h1>
+          <img class="cover" src="/blog-assets/bitcoin-golden-coin.jpg" alt="Web3 ecosystem visual" />
+          <p>Hendri Rahmat Hendrianto builds production-grade Web3 solutions through wallet integration, transaction orchestration, API-driven architecture, and hybrid Web2+Web3 application development.</p>
+          <h2>Web3 Technical Focus</h2>
+          <ul>
+            <li>Smart contract interaction and event indexing pipelines</li>
+            <li>Wallet and payment orchestration across multiple chains</li>
+            <li>dApp backend with Node.js, TypeScript, and scalable APIs</li>
+            <li>Wallet integration: MetaMask, WalletConnect, Privy, Trust Wallet</li>
+            <li>AI-assisted user flows for fintech and developer tools</li>
+            <li>Ethers.js, Web3.js, Web3.py for on-chain interaction</li>
+          </ul>
+          <p><a href="/">← Back to main portfolio</a></p>
+        </div>
+
       </section>
     </main>
     <script>
       (function () {
-        const key = "insight-theme";
-        const saved = localStorage.getItem(key);
-        if (saved === "light") document.body.classList.add("theme-light");
-        const btn = document.getElementById("theme-toggle");
-        const setLabel = () => {
-          btn.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode";
-        };
-        setLabel();
-        btn.addEventListener("click", function () {
-          document.body.classList.toggle("theme-light");
-          localStorage.setItem(key, document.body.classList.contains("theme-light") ? "light" : "dark");
-          setLabel();
-        });
+        const themeKey = "insight-theme";
+        if (localStorage.getItem(themeKey) === "light") document.body.classList.add("theme-light");
+        const themeBtn = document.getElementById("theme-toggle");
+        const setTheme = function () { themeBtn.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode"; };
+        setTheme();
+        themeBtn.addEventListener("click", function () { document.body.classList.toggle("theme-light"); localStorage.setItem(themeKey, document.body.classList.contains("theme-light") ? "light" : "dark"); setTheme(); });
+        const langKey = "web3-dev-lang";
+        let lang = localStorage.getItem(langKey) || "id";
+        const langBtn = document.getElementById("lang-toggle");
+        const cId = document.getElementById("content-id");
+        const cEn = document.getElementById("content-en");
+        function applyLang(l) {
+          if (l === "en") { cId.style.display = "none"; cEn.style.display = "block"; langBtn.textContent = "Bahasa Indonesia"; document.documentElement.lang = "en"; }
+          else { cId.style.display = "block"; cEn.style.display = "none"; langBtn.textContent = "English"; document.documentElement.lang = "id"; }
+        }
+        applyLang(lang);
+        langBtn.addEventListener("click", function () { lang = lang === "id" ? "en" : "id"; localStorage.setItem(langKey, lang); applyLang(lang); });
       })();
     </script>
   </body>

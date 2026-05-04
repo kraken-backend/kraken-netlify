@@ -1,29 +1,24 @@
 <!doctype html>
+<!-- Path: frontend/public/kvp-layer1-architecture-journey.html -->
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</title>
-    <meta
-      name="description"
-      content="Cerita teknis pembangunan KVP Protocol oleh Hendri Rahmat Hendrianto: perjalanan arsitektur Layer-1 dari 2015 hingga 2026, migrasi Go ke Rust, dan pendekatan produksi."
-    />
+    <meta name="description" content="Cerita teknis pembangunan KVP Protocol oleh Hendri Rahmat Hendrianto: perjalanan arsitektur Layer-1 dari 2015 hingga 2026, migrasi Go ke Rust, dan pendekatan produksi." />
     <link rel="canonical" href="https://krakenteam.netlify.app/kvp-layer1-architecture-journey.html" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)" />
-    <meta
-      property="og:description"
-      content="Perjalanan teknis KVP Protocol: Layer-1 design, tokenomics enforcement, dan evolusi arsitektur dari Go ke Rust."
-    />
+    <meta property="og:description" content="Perjalanan teknis KVP Protocol: Layer-1 design, tokenomics enforcement, dan evolusi arsitektur dari Go ke Rust." />
     <meta property="og:url" content="https://krakenteam.netlify.app/kvp-layer1-architecture-journey.html" />
     <meta property="og:image" content="https://krakenteam.netlify.app/blog-assets/blockchain-illustration-4.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)" />
-    <meta
-      name="twitter:description"
-      content="Perjalanan teknis KVP Protocol: Layer-1 design, tokenomics enforcement, dan evolusi arsitektur dari Go ke Rust."
-    />
+    <meta name="twitter:description" content="Perjalanan teknis KVP Protocol: Layer-1 design, tokenomics enforcement, dan evolusi arsitektur dari Go ke Rust." />
     <meta name="twitter:image" content="https://krakenteam.netlify.app/blog-assets/blockchain-illustration-4.jpg" />
+    <script type="application/ld+json">
+      { "@context": "https://schema.org", "@type": "BlogPosting", "headline": "How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)", "author": { "@type": "Person", "name": "Hendri Rahmat Hendrianto" }, "publisher": { "@type": "Organization", "name": "Kraken Team" }, "datePublished": "2026-04-25", "dateModified": "2026-04-25", "mainEntityOfPage": "https://krakenteam.netlify.app/kvp-layer1-architecture-journey.html" }
+    </script>
     <style>
       body { font-family: Inter, Segoe UI, Arial, sans-serif; margin: 0; background: radial-gradient(circle at top, #111b31, #0b1220 45%); color: #e2e8f0; line-height: 1.75; }
       main { width: min(960px, 92%); margin: 2rem auto; }
@@ -35,112 +30,123 @@
       .cover { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; margin: 0.4rem 0 1rem; }
       .section-image { width: 100%; height: 260px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; margin: 0.5rem 0 1rem; }
       .badge { display: inline-block; border: 1px solid #3b82f6; color: #93c5fd; border-radius: 999px; padding: 0.2rem 0.65rem; font-size: 0.82rem; margin-bottom: 0.5rem; }
-      .theme-toggle { position: fixed; top: 14px; right: 14px; z-index: 10; border: 1px solid #334155; background: #111827; color: #e5e7eb; border-radius: 999px; font-size: 0.82rem; padding: 0.35rem 0.75rem; cursor: pointer; }
+      .controls { position: fixed; top: 14px; right: 14px; z-index: 10; display: flex; gap: 8px; }
+      .ctrl-btn { border: 1px solid #334155; background: #111827; color: #e5e7eb; border-radius: 999px; font-size: 0.82rem; padding: 0.35rem 0.75rem; cursor: pointer; }
       a { color: #93c5fd; text-decoration: none; }
+      ul { margin: 0.5rem 0 0; }
       body.theme-light { background: radial-gradient(circle at top, #f3f8ff, #e7eef8 45%); color: #0f172a; }
-      body.theme-light article { background: rgba(255, 255, 255, 0.95); border-color: #d4dce8; box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12); }
+      body.theme-light article { background: rgba(255,255,255,0.95); border-color: #d4dce8; box-shadow: 0 10px 22px rgba(15,23,42,0.12); }
       body.theme-light .meta { color: #475569; }
       body.theme-light .impact { border-color: #d4dce8; background: #f8fbff; }
-      body.theme-light .cover,
-      body.theme-light .section-image { border-color: #d4dce8; }
-      body.theme-light .theme-toggle { background: #eff6ff; color: #0f172a; border-color: #93c5fd; }
-      ul { margin: 0.5rem 0 0; }
+      body.theme-light .cover, body.theme-light .section-image { border-color: #d4dce8; }
+      body.theme-light .ctrl-btn { background: #eff6ff; color: #0f172a; border-color: #93c5fd; }
     </style>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)",
-        "author": {
-          "@type": "Person",
-          "name": "Hendri Rahmat Hendrianto"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Kraken Team"
-        },
-        "datePublished": "2026-04-25",
-        "dateModified": "2026-04-25",
-        "mainEntityOfPage": "https://krakenteam.netlify.app/kvp-layer1-architecture-journey.html"
-      }
-    </script>
   </head>
   <body>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+    <div class="controls">
+      <button id="lang-toggle" class="ctrl-btn" type="button">English</button>
+      <button id="theme-toggle" class="ctrl-btn" type="button">Light Mode</button>
+    </div>
     <main>
       <article>
-        <span class="badge">Blockchain Engineering • Technical Insight</span>
-        <h1>How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</h1>
-        <p class="meta">By Hendri Rahmat Hendrianto • Updated Apr 25, 2026</p>
-        <img class="cover" src="/blog-assets/blockchain-illustration-4.jpg" alt="KVP protocol architecture visual cover" />
-        <p>
-          KVP Protocol (Krakenum Chain) adalah inisiatif Layer-1 yang saya bangun dengan fokus utama pada deterministic
-          monetary rules, predictable execution, dan arsitektur yang siap untuk production-grade fintech workflows.
-          Artikel ini menjelaskan bagaimana arsitektur berkembang dari versi awal hingga pendekatan terbaru.
-        </p>
-        <h2>Phase 1: Foundation in Go (2015-2020)</h2>
-        <p>
-          Fase awal dibangun di Go untuk mempercepat eksperimen node runtime, ledger behavior, dan model distribusi ekonomi.
-          Tujuan utama fase ini adalah validasi core principle: aturan ekonomi harus ditegakkan di level protokol, bukan hanya
-          di aplikasi.
-        </p>
-        <ul>
-          <li>Genesis and bucket-based distribution model</li>
-          <li>Append-only transaction logging approach</li>
-          <li>Node runtime and basic network synchronization model</li>
-        </ul>
-        <h2>Phase 2: Protocol Maturation in Rust (2020-Present)</h2>
-        <img class="section-image" src="/blog-assets/bitcoin-golden-coin.jpg" alt="KVP modernization and architecture evolution visual" />
-        <p>
-          Saat kebutuhan reliability dan determinism naik, saya migrasi core architecture ke Rust. Fokusnya adalah meminimalkan
-          unpredictable behavior dan memperkuat state transition guarantees di environment multi-node.
-        </p>
-        <ul>
-          <li>Deterministic state machine and canonical state commitment</li>
-          <li>Leader/follower topology with snapshot by height</li>
-          <li>P2P sync validation on devnet between Node A and Node B</li>
-        </ul>
-        <h2>Why This Matters for Real Products</h2>
-        <p>
-          Layer-1 architecture bukan sekadar eksperimen teknis. Bagi saya, protokol harus bisa terhubung dengan use case nyata:
-          payment infrastructure, settlement flow, dan interoperable service layer untuk Web2+Web3 products.
-        </p>
-        <div class="impact">
-          <strong>Project Impact Snapshot</strong>
+
+        <!-- ── ID ── -->
+        <div id="content-id">
+          <span class="badge">Blockchain Engineering • Technical Insight</span>
+          <h1>Bagaimana Saya Membangun KVP Protocol: Perjalanan Arsitektur Layer-1 (2015-2026)</h1>
+          <p class="meta">Oleh Hendri Rahmat Hendrianto • Diperbarui 25 Apr 2026</p>
+          <img class="cover" src="/blog-assets/blockchain-illustration-4.jpg" alt="KVP protocol architecture visual cover" />
+          <p>KVP Protocol (Krakenum Chain) adalah inisiatif Layer-1 yang saya bangun dengan fokus utama pada deterministic monetary rules, predictable execution, dan arsitektur yang siap untuk production-grade fintech workflows. Artikel ini menjelaskan bagaimana arsitektur berkembang dari versi awal hingga pendekatan terbaru.</p>
+          <h2>Phase 1: Fondasi di Go (2015-2020)</h2>
+          <p>Fase awal dibangun di Go untuk mempercepat eksperimen node runtime, ledger behavior, dan model distribusi ekonomi. Tujuan utamanya: validasi core principle bahwa aturan ekonomi harus ditegakkan di level protokol, bukan hanya di aplikasi.</p>
           <ul>
-            <li>Built and evolved protocol architecture from 2015 to 2026</li>
-            <li>Contributed to payment ecosystem handling 50,000+ transactions</li>
-            <li>Aligned with production API systems across 133 documented endpoints</li>
+            <li>Genesis and bucket-based distribution model</li>
+            <li>Append-only transaction logging approach</li>
+            <li>Node runtime and basic network synchronization model</li>
           </ul>
+          <h2>Phase 2: Pematangan Protokol di Rust (2020-Sekarang)</h2>
+          <img class="section-image" src="/blog-assets/bitcoin-golden-coin.jpg" alt="KVP modernization and architecture evolution visual" />
+          <p>Saat kebutuhan reliability dan determinism naik, saya migrasi core architecture ke Rust. Fokusnya adalah meminimalkan unpredictable behavior dan memperkuat state transition guarantees di environment multi-node.</p>
+          <ul>
+            <li>Deterministic state machine and canonical state commitment</li>
+            <li>Leader/follower topology with snapshot by height</li>
+            <li>P2P sync validation on devnet between Node A and Node B</li>
+          </ul>
+          <h2>Mengapa Ini Penting untuk Produk Nyata</h2>
+          <p>Layer-1 architecture bukan sekadar eksperimen teknis. Protokol harus bisa terhubung dengan use case nyata: payment infrastructure, settlement flow, dan interoperable service layer untuk Web2+Web3 products.</p>
+          <div class="impact">
+            <strong>Project Impact Snapshot</strong>
+            <ul>
+              <li>Membangun dan mengembangkan arsitektur protokol dari 2015 hingga 2026</li>
+              <li>Berkontribusi pada ekosistem payment yang memproses 50.000+ transaksi</li>
+              <li>Selaras dengan sistem API produksi dengan 133 endpoint terdokumentasi</li>
+            </ul>
+          </div>
+          <h2>Repositori Publik vs Arsitektur Saat Ini</h2>
+          <p>Repositori publik yang tersedia merepresentasikan arsitektur terdahulu (deprecated path). Untuk arsitektur terbaru sejak 2024, akses source disimpan private untuk perlindungan IP dan keamanan sistem.</p>
+          <p><a href="mailto:rahmathst99@gmail.com?subject=KVP%20Architecture%20Discussion">Tanya langsung via email</a> • <a href="/">← Kembali ke portfolio</a></p>
         </div>
-        <h2>Public vs Current Architecture</h2>
-        <p>
-          Repositori publik yang tersedia merepresentasikan arsitektur terdahulu (deprecated path). Untuk arsitektur terbaru
-          sejak 2024, akses source disimpan private untuk perlindungan intellectual property dan keamanan sistem.
-          Jika Anda ingin diskusi teknis lebih lanjut, silakan hubungi saya langsung.
-        </p>
-        <p>
-          <a href="mailto:rahmathst99@gmail.com?subject=KVP%20Architecture%20Discussion">Ask personally via email</a>
-          •
-          <a href="/">Back to main portfolio</a>
-        </p>
+
+        <!-- ── EN ── -->
+        <div id="content-en" style="display:none;">
+          <span class="badge">Blockchain Engineering • Technical Insight</span>
+          <h1>How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</h1>
+          <p class="meta">By Hendri Rahmat Hendrianto • Updated Apr 25, 2026</p>
+          <img class="cover" src="/blog-assets/blockchain-illustration-4.jpg" alt="KVP protocol architecture visual cover" />
+          <p>KVP Protocol (Krakenum Chain) is a Layer-1 initiative I built with a primary focus on deterministic monetary rules, predictable execution, and an architecture ready for production-grade fintech workflows. This article explains how the architecture evolved from its early form to the current approach.</p>
+          <h2>Phase 1: Foundation in Go (2015-2020)</h2>
+          <p>The early phase was built in Go to accelerate experimentation with node runtime, ledger behavior, and economic distribution models. The primary goal was to validate a core principle: economic rules must be enforced at the protocol level, not just the application layer.</p>
+          <ul>
+            <li>Genesis and bucket-based distribution model</li>
+            <li>Append-only transaction logging approach</li>
+            <li>Node runtime and basic network synchronization model</li>
+          </ul>
+          <h2>Phase 2: Protocol Maturation in Rust (2020-Present)</h2>
+          <img class="section-image" src="/blog-assets/bitcoin-golden-coin.jpg" alt="KVP modernization and architecture evolution visual" />
+          <p>As the need for reliability and determinism grew, I migrated the core architecture to Rust. The focus was on minimizing unpredictable behavior and strengthening state transition guarantees in a multi-node environment.</p>
+          <ul>
+            <li>Deterministic state machine and canonical state commitment</li>
+            <li>Leader/follower topology with snapshot by height</li>
+            <li>P2P sync validation on devnet between Node A and Node B</li>
+          </ul>
+          <h2>Why This Matters for Real Products</h2>
+          <p>Layer-1 architecture is more than a technical experiment. The protocol must connect to real use cases: payment infrastructure, settlement flows, and an interoperable service layer for Web2+Web3 products.</p>
+          <div class="impact">
+            <strong>Project Impact Snapshot</strong>
+            <ul>
+              <li>Built and evolved protocol architecture from 2015 to 2026</li>
+              <li>Contributed to payment ecosystem handling 50,000+ transactions</li>
+              <li>Aligned with production API systems across 133 documented endpoints</li>
+            </ul>
+          </div>
+          <h2>Public Repository vs Current Architecture</h2>
+          <p>The available public repository represents deprecated architecture (2015-2024). The latest architecture from 2024 onward is kept private for IP protection and system security.</p>
+          <p><a href="mailto:rahmathst99@gmail.com?subject=KVP%20Architecture%20Discussion">Ask personally via email</a> • <a href="/">← Back to portfolio</a></p>
+        </div>
+
       </article>
     </main>
     <script>
       (function () {
-        const key = "insight-theme";
-        const saved = localStorage.getItem(key);
+        const themeKey = "insight-theme";
+        const saved = localStorage.getItem(themeKey);
         if (saved === "light") document.body.classList.add("theme-light");
-        const btn = document.getElementById("theme-toggle");
-        const setLabel = () => {
-          btn.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode";
-        };
-        setLabel();
-        btn.addEventListener("click", function () {
-          document.body.classList.toggle("theme-light");
-          localStorage.setItem(key, document.body.classList.contains("theme-light") ? "light" : "dark");
-          setLabel();
-        });
+        const themeBtn = document.getElementById("theme-toggle");
+        const setTheme = function () { themeBtn.textContent = document.body.classList.contains("theme-light") ? "Dark Mode" : "Light Mode"; };
+        setTheme();
+        themeBtn.addEventListener("click", function () { document.body.classList.toggle("theme-light"); localStorage.setItem(themeKey, document.body.classList.contains("theme-light") ? "light" : "dark"); setTheme(); });
+
+        const langKey = "kvp-journey-lang";
+        let lang = localStorage.getItem(langKey) || "id";
+        const langBtn = document.getElementById("lang-toggle");
+        const cId = document.getElementById("content-id");
+        const cEn = document.getElementById("content-en");
+        function applyLang(l) {
+          if (l === "en") { cId.style.display = "none"; cEn.style.display = "block"; langBtn.textContent = "Bahasa Indonesia"; document.documentElement.lang = "en"; }
+          else { cId.style.display = "block"; cEn.style.display = "none"; langBtn.textContent = "English"; document.documentElement.lang = "id"; }
+        }
+        applyLang(lang);
+        langBtn.addEventListener("click", function () { lang = lang === "id" ? "en" : "id"; localStorage.setItem(langKey, lang); applyLang(lang); });
       })();
     </script>
   </body>

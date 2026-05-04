@@ -1,4 +1,10 @@
+// Path: frontend/src/main.ts
+
 import "./style.css";
+
+// ============================================================
+// TYPES
+// ============================================================
 
 type ProfileResponse = {
   name: string;
@@ -22,6 +28,9 @@ type ProfileResponse = {
     url?: string;
     note?: string;
     askEmail?: boolean;
+    youtubePreview?: string;
+    attachmentUrl?: string;
+    attachmentLabel?: string;
   }>;
   aboutMe: string;
   techSupport: Array<{
@@ -35,16 +44,78 @@ type ProfileResponse = {
   communities: string[];
 };
 
-const apiBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+// ============================================================
+// I18N — Bilingual strings (ID / EN)
+// ============================================================
+
+const i18n = {
+  id: {
+    langToggle: "English",
+    loading: "Memuat portfolio...",
+    location: "Bogor, Jawa Barat, Indonesia",
+    tagline: "Kraken Team • Portfolio 2026",
+    exploreExpertise: "Jelajahi Keahlian",
+    blockchainEngineer: "Profil Blockchain Engineer",
+    web3Developer: "Profil Web3 Developer",
+    fintechEngineer: "Profil Fintech Engineer",
+    latestInsight: "Tulisan Terbaru",
+    aboutMe: "Tentang Saya",
+    keyHighlights: "Highlight Utama",
+    featuredProjects: "Proyek Unggulan",
+    techSupport: "Dukungan Teknologi",
+    devCommunities: "Komunitas Developer",
+    openProject: "Buka proyek",
+    askPersonally: "Tanya langsung",
+    youtubePreview: "Lihat preview YouTube",
+    downloadCv: "Unduh CV Saya (PDF)",
+    downloadPaper: "Unduh Paper (PDF)",
+    cvNote: "Versi lengkap tersedia setelah diskusi",
+    blogKdec: "K-DEC: Teori Ekonomi Deterministik yang Saya Ciptakan untuk KVP Blockchain",
+    blogKvp: "Bagaimana Saya Membangun KVP Protocol: Perjalanan Arsitektur Layer-1 (2015-2026)",
+    blogFindigi: "Mengapa Saya Membangun Findigi dan KVP: Melampaui On-Ramp, Off-Ramp, dan Ketergantungan EVM",
+  },
+  en: {
+    langToggle: "Bahasa Indonesia",
+    loading: "Loading portfolio...",
+    location: "Bogor, West Java, Indonesia",
+    tagline: "Kraken Team • Portfolio 2026",
+    exploreExpertise: "Explore Expertise",
+    blockchainEngineer: "Blockchain Engineer Profile",
+    web3Developer: "Web3 Developer Profile",
+    fintechEngineer: "Fintech Engineer Profile",
+    latestInsight: "Latest Insight",
+    aboutMe: "About Me",
+    keyHighlights: "Key Highlights",
+    featuredProjects: "Featured Projects",
+    techSupport: "Tech Support",
+    devCommunities: "Developer Communities",
+    openProject: "Open project",
+    askPersonally: "Ask personally",
+    youtubePreview: "Watch YouTube preview",
+    downloadCv: "Download My CV (PDF)",
+    downloadPaper: "Download Paper (PDF)",
+    cvNote: "Full version available after discussion",
+    blogKdec: "K-DEC: Deterministic Economic Theory I Created for KVP Blockchain",
+    blogKvp: "How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)",
+    blogFindigi: "Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency",
+  },
+};
+
+type Lang = "id" | "en";
+let currentLang: Lang = "id";
+
+// ============================================================
+// FALLBACK PROFILE DATA
+// ============================================================
 
 const fallbackProfile: ProfileResponse = {
   name: "Hendri Rahmat Hendrianto",
   title: "Full-Stack Developer (Backend) | AI Agent & Blockchain Engineer",
   location: "Bogor, West Java, Indonesia",
   summary:
-    "10+ years specialized in blockchain protocol engineering, AI infrastructure, and fintech. Founder of PT Antareja Nusantara Resources, building KVP Protocol (Krakenum Chain), FinDIGI, and KrakenWorld Online.",
+    "10+ years specialized in blockchain protocol engineering, AI infrastructure, and fintech. Founder of PT Antareja Nusantara Resources, building KVP Protocol (Krakenum Chain), FinDIGI, KrakenWorld Online, and Pevi AI Assistant.",
   aboutMe:
-    "Full-Stack Developer and AI Engineer with 10+ years of specialized experience building production-grade systems across blockchain protocol engineering, AI infrastructure, and fintech. Founder of PT Antareja Nusantara Resources building KVP Protocol (Krakenum Chain), originally in Go and migrated to Rust, with deep experience in arbitrage bots, DEX integration, and multi-chain payment infrastructure. Across 20+ years in technical leadership, I currently lead FinDIGI, KrakenWorld Online, and KVP Protocol Phase 2 while delivering enterprise blockchain systems used in 10+ integrations and 50,000+ transactions.",
+    "Full-Stack Developer and AI Engineer with 10+ years of specialized experience building production-grade systems across blockchain protocol engineering, AI infrastructure, and fintech. Founder of PT Antareja Nusantara Resources building KVP Protocol (Krakenum Chain) — a Layer-1 blockchain originally in Go and migrated to Rust — with deep experience in arbitrage bots, DEX integration, and multi-chain payment infrastructure. Across 20+ years in technical leadership, I currently lead FinDIGI, KrakenWorld Online, KVP Protocol Phase 2, and Pevi — my own private AI assistant built to support my engineering workflow without dependency on any external AI platform.",
   contact: {
     email: "rahmathst99@gmail.com",
     mobile: "082167711689",
@@ -52,95 +123,121 @@ const fallbackProfile: ProfileResponse = {
     linkedin: "https://linkedin.com/in/hendri-rahmat-hendrianto-6897b22a",
     github: "https://github.com/kraken-backend",
     youtube: "https://youtube.com/@hendrirh",
-    discord: "hendrirh"
+    discord: "hendrirh",
   },
   highlights: [
-    "Built Layer-1 KVP Protocol with Go then migrated to Rust, deterministic state machine and protocol-level tokenomics.",
+    "Built Layer-1 KVP Protocol (Krakenum Chain) with Go then migrated to Rust — deterministic state machine and protocol-level tokenomics.",
+    "Published K-DEC (Krakenum Deterministic Economic Continuum) — an independent research paper on deterministic economic theory for blockchain.",
     "Developed FinDIGI hybrid Web2/Web3 platform with 133 REST endpoints and integrated FinChat AI assistant.",
+    "Built Pevi — a private AI assistant (Next.js + OpenRouter) to support personal engineering workflow, fully independent from external AI platforms.",
     "Published multi-chain SDK supporting 8+ networks and 50+ APIs for real-world integrations.",
-    "Delivered smart contract and payment systems handling high-volume transactions and automated reconciliation."
+    "Delivered smart contract and payment systems handling high-volume transactions and automated reconciliation.",
   ],
   projects: [
     {
       name: "KVP Protocol (Krakenum Chain)",
       period: "2015 - Present",
       description:
-        "Self-built Layer-1 blockchain with fixed supply economics, leader/follower nodes, P2P synchronization, and CLI toolchain.",
+        "Self-built Layer-1 blockchain with fixed supply economics (1B KVC), POSA consensus, leader/follower nodes, P2P synchronization, and CLI toolchain. All monetary rules enforced at protocol level — no EVM smart contracts.",
       url: "https://github.com/kraken-backend/kvp-blockchain",
       note: "Public repository represents deprecated architecture (2015-2024). Current KVP architecture from 2024 onward is private for IP and security protection.",
-      askEmail: true
+      askEmail: true,
+    },
+    {
+      name: "K-DEC — Krakenum Deterministic Economic Continuum",
+      period: "2026",
+      description:
+        "Independent research paper formalizing the relationship between ledger finality and economic finality in blockchain systems. Covers deterministic finality, policy commitment traceability, validator participation, economic gap diagnostics, and operational observability across 122 pages.",
+      url: "/k-dec-theory.html",
+      attachmentUrl: "/attachments/K-DEC_Paper_260425.pdf",
+      attachmentLabel: "Download Paper (PDF)",
     },
     {
       name: "FinDIGI + FinChat",
       period: "2026 - Present",
       description:
-        "Hybrid Web2/Web3 fintech product with AI assistant, maker-checker flow, cross-chain transfers, and full OpenAPI modules.",
-      url: "https://findigi.vercel.app"
+        "Hybrid Web2/Web3 fintech product with AI assistant (FinChat), maker-checker flow, cross-chain transfers, FinVault custodial/non-custodial wallets, and full OpenAPI modules across 133 endpoints.",
+      url: "https://findigi.vercel.app",
+    },
+    {
+      name: "Pevi — Private AI Assistant",
+      period: "2026 - Present",
+      description:
+        "Self-built personal AI assistant (Next.js + OpenRouter API) with RAG document intelligence, vision support, artifact panel, file generation (DOCX/XLSX/PPTX), and multi-model fallback strategy. Built to support personal engineering workflow without dependency on any external AI platform.",
+      youtubePreview: "https://youtu.be/MAm8IYvQPJY?si=xXJAeQ5DdYEn4MHC",
+      note: "Currently private/local. Available for demo on request.",
+      askEmail: true,
     },
     {
       name: "anantla_sdk",
       period: "2025 - Dec 2025",
       description:
-        "Production NPM SDK for multi-chain wallet and payment integration with TypeScript support.",
-      url: "https://www.npmjs.com/package/anantla_sdk"
+        "Production NPM SDK for multi-chain wallet and payment integration with TypeScript support across 8+ blockchain networks.",
+      url: "https://www.npmjs.com/package/anantla_sdk",
     },
     {
       name: "KrakenWorld Online",
       period: "Blueprint Stage",
       description:
-        "Fully on-chain 3D MMORPG concept with governance, in-game DEX economy, and KVP settlement bridge."
-    }
+        "Fully on-chain 3D MMORPG concept with on-chain governance, in-game DEX economy, 3 civilization tokens (VEL/ELX/KRT), and KVP Protocol settlement bridge.",
+    },
   ],
   techSupport: [
     {
       category: "Fintech & Product",
-      skills: ["Fintech Web3+Web2", "Payment Gateway Integration", "Maker-Checker Workflow", "USDC Settlement"]
+      skills: ["Fintech Web3+Web2", "Payment Gateway Integration", "Maker-Checker Workflow", "USDC Settlement"],
     },
     {
       category: "Backend",
-      skills: ["Node.js", "Express.js", "TypeScript", "JavaScript", "Rust", "Go (Golang)", "Python", "REST API", "WebSockets", "gRPC"]
+      skills: ["Node.js", "Express.js", "TypeScript", "JavaScript", "Rust", "Go (Golang)", "Python", "REST API", "WebSockets", "gRPC"],
     },
     {
       category: "Frontend",
-      skills: ["React", "NextJS", "Tailwind CSS", "Vercel", "UI/UX Integration"]
+      skills: ["React", "NextJS", "Tailwind CSS", "Vercel", "UI/UX Integration"],
     },
     {
       category: "Blockchain",
-      skills: ["Solidity", "Hardhat", "Ethers.js", "Ethereum", "Polygon", "Neon", "XRPL", "Cardano", "Multi-chain Integration"]
+      skills: ["Solidity", "Hardhat", "Ethers.js", "Ethereum", "Polygon", "Neon", "XRPL", "Cardano", "Multi-chain Integration"],
     },
     {
       category: "Database",
-      skills: ["PostgreSQL", "Redis", "NeonDB", "RockDB", "MongoDB"]
+      skills: ["PostgreSQL", "Redis", "NeonDB", "RocksDB", "MongoDB", "SQLite"],
     },
     {
       category: "Infra & DevOps",
-      skills: ["Docker", "AWS", "Railway", "GitHub Actions", "CI/CD", "Monitoring"]
+      skills: ["Docker", "AWS", "Railway", "GitHub Actions", "CI/CD", "Monitoring"],
     },
     {
       category: "AI & Agent",
-      skills: ["Groq API", "Llama LLM", "AI Agent Development", "Prompt Engineering", "Intent Routing"]
-    }
+      skills: ["Groq API", "OpenRouter API", "Llama LLM", "AI Agent Development", "Prompt Engineering", "Intent Routing", "RAG"],
+    },
   ],
   metrics: [
     { label: "Specialized Experience", value: "10+ Years" },
     { label: "Total Leadership Experience", value: "20+ Years" },
     { label: "REST API Endpoints Delivered", value: "133" },
-    { label: "Payment Transactions Processed", value: "50,000+" }
+    { label: "Payment Transactions Processed", value: "50,000+" },
   ],
   communities: [
     "Solana Developers Community",
     "Polygon Official Community",
     "Solana Official Community",
     "Ethereum Official Community",
-    "Pi Network Community"
-  ]
+    "Pi Network Community",
+  ],
 };
+
+// ============================================================
+// API
+// ============================================================
+
+const apiBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
 
 async function loadProfile() {
   const app = document.querySelector<HTMLDivElement>("#app");
   if (!app) return;
 
-  app.innerHTML = `<main class="page"><p class="loading">Loading portfolio...</p></main>`;
+  app.innerHTML = `<main class="page"><p class="loading">${i18n[currentLang].loading}</p></main>`;
 
   if (!apiBase) {
     app.innerHTML = renderPortfolio(fallbackProfile);
@@ -157,20 +254,31 @@ async function loadProfile() {
   }
 }
 
-function renderPortfolio(data: ProfileResponse) {
+// ============================================================
+// RENDER
+// ============================================================
+
+function renderPortfolio(data: ProfileResponse): string {
+  const t = i18n[currentLang];
+
   return `
     <main class="page">
       <section class="hero">
         <img src="/1728869118367.jpeg" alt="Hendri profile photo" class="profile-photo" />
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+        <div class="controls-row">
+          <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Toggle language">${t.langToggle}</button>
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">Light Mode</button>
+        </div>
         <div class="brand-row">
           <img src="/Kraken Logo.png" alt="Kraken Team Logo" class="brand-logo" />
-          <p class="tag">Kraken Team • Portfolio 2026</p>
+          <p class="tag">${t.tagline}</p>
         </div>
         <h1>${data.name}</h1>
         <h2>${data.title}</h2>
-        <p class="location">${data.location}</p>
-        <p class="summary">${data.summary}</p>
+        <p class="location">${t.location}</p>
+        <p class="summary">${currentLang === "id"
+          ? "10+ tahun spesialisasi di blockchain protocol engineering, AI infrastructure, dan fintech. Founder PT Antareja Nusantara Resources — membangun KVP Protocol (Krakenum Chain), FinDIGI, KrakenWorld Online, dan Pevi AI Assistant."
+          : data.summary}</p>
         <div class="links">
           <a href="${data.contact.linkedin}" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="${data.contact.github}" target="_blank" rel="noreferrer">GitHub</a>
@@ -178,6 +286,12 @@ function renderPortfolio(data: ProfileResponse) {
           <a href="https://discord.com/" target="_blank" rel="noreferrer">Discord: ${data.contact.discord}</a>
           <a href="mailto:${data.contact.email}">Email</a>
           <a href="https://wa.me/${data.contact.whatsapp}" target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+        <div class="cv-attachment">
+          <a href="/attachments/Hendri_Rahmat_CV_Updated200426-IT01.pdf" target="_blank" rel="noreferrer" class="cv-link">
+            📄 ${t.downloadCv}
+          </a>
+          <p class="cv-note">${t.cvNote}</p>
         </div>
         <div class="metrics">
           ${data.metrics
@@ -198,50 +312,67 @@ function renderPortfolio(data: ProfileResponse) {
           <img src="/Findigi Banner.png" alt="FinDIGI Platform Banner" />
           <div class="media-text">
             <h3>FinDIGI Platform</h3>
-            <p>Production hybrid Web2/Web3 fintech platform with AI-driven developer experience.</p>
+            <p>${currentLang === "id"
+              ? "Platform fintech hybrid Web2/Web3 production dengan pengalaman developer berbasis AI."
+              : "Production hybrid Web2/Web3 fintech platform with AI-driven developer experience."}</p>
           </div>
         </article>
         <article class="media-card">
           <img src="/FindigiThumbnail.png" alt="FinDIGI Thumbnail" />
           <div class="media-text">
-            <h3>AI + Blockchain Focus</h3>
-            <p>Portfolio direction aligned to AI Agent engineering and multi-chain infrastructure.</p>
+            <h3>${currentLang === "id" ? "Fokus AI + Blockchain" : "AI + Blockchain Focus"}</h3>
+            <p>${currentLang === "id"
+              ? "Arah portfolio selaras dengan AI Agent engineering dan infrastruktur multi-chain."
+              : "Portfolio direction aligned to AI Agent engineering and multi-chain infrastructure."}</p>
           </div>
         </article>
       </section>
 
       <section class="card">
-        <h3>Explore Expertise</h3>
+        <h3>${t.exploreExpertise}</h3>
         <div class="seo-links">
-          <a href="/blockchain-engineer.html">Blockchain Engineer Profile</a>
-          <a href="/web3-developer.html">Web3 Developer Profile</a>
-          <a href="/fintech-engineer.html">Fintech Engineer Profile</a>
+          <a href="/blockchain-engineer.html">${t.blockchainEngineer}</a>
+          <a href="/web3-developer.html">${t.web3Developer}</a>
+          <a href="/fintech-engineer.html">${t.fintechEngineer}</a>
         </div>
       </section>
 
       <section class="card">
-        <h3>Latest Insight</h3>
+        <h3>${t.latestInsight}</h3>
         <div class="seo-links">
-          <a href="/k-dec-theory.html">K-DEC: Teori Ekonomi Deterministik yang Saya Ciptakan untuk KVP Blockchain</a>
-          <a href="/kvp-layer1-architecture-journey.html">How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)</a>
-          <a href="/why-i-built-findigi-kvp.html">Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency</a>
+          <a href="/k-dec-theory.html">${t.blogKdec}</a>
+          <a href="/kvp-layer1-architecture-journey.html">${t.blogKvp}</a>
+          <a href="/why-i-built-findigi-kvp.html">${t.blogFindigi}</a>
+          <a href="/pevi-ai-assistant.html">${currentLang === "id" ? "Pevi: AI Assistant Pribadi yang Saya Bangun Sendiri" : "Pevi: The Private AI Assistant I Built for Myself"}</a>
         </div>
       </section>
 
       <section class="card">
-        <h3>About Me</h3>
-        <p class="about-me">${data.aboutMe}</p>
+        <h3>${t.aboutMe}</h3>
+        <p class="about-me">${currentLang === "id"
+          ? "Full-Stack Developer dan AI Engineer dengan 10+ tahun pengalaman spesialisasi membangun sistem production-grade di bidang blockchain protocol engineering, AI infrastructure, dan fintech. Founder PT Antareja Nusantara Resources yang membangun KVP Protocol (Krakenum Chain) — Layer-1 blockchain yang awalnya dibangun di Go dan dimigrasi ke Rust — dengan pengalaman mendalam di arbitrage bot, DEX integration, dan multi-chain payment infrastructure. Selama 20+ tahun di technical leadership, saya saat ini memimpin FinDIGI, KrakenWorld Online, KVP Protocol Phase 2, dan Pevi — AI assistant pribadi yang saya bangun sendiri untuk mendukung workflow engineering tanpa ketergantungan pada platform AI eksternal manapun."
+          : data.aboutMe}</p>
       </section>
 
       <section class="card">
-        <h3>Key Highlights</h3>
+        <h3>${t.keyHighlights}</h3>
         <ul>
-          ${data.highlights.map((item) => `<li>${item}</li>`).join("")}
+          ${(currentLang === "id"
+            ? [
+                "Membangun Layer-1 KVP Protocol (Krakenum Chain) dengan Go lalu migrasi ke Rust — deterministic state machine dan tokenomics di level protokol.",
+                "Menerbitkan K-DEC (Krakenum Deterministic Economic Continuum) — research paper independen tentang teori ekonomi deterministik untuk blockchain.",
+                "Mengembangkan platform hybrid FinDIGI Web2/Web3 dengan 133 REST endpoint dan AI assistant FinChat terintegrasi.",
+                "Membangun Pevi — AI assistant pribadi (Next.js + OpenRouter) untuk mendukung workflow engineering, sepenuhnya independen dari platform AI eksternal.",
+                "Menerbitkan multi-chain SDK yang mendukung 8+ jaringan dan 50+ API untuk integrasi dunia nyata.",
+                "Menyerahkan sistem smart contract dan payment yang menangani transaksi volume tinggi dan rekonsiliasi otomatis.",
+              ]
+            : data.highlights
+          ).map((item) => `<li>${item}</li>`).join("")}
         </ul>
       </section>
 
       <section class="card">
-        <h3>Featured Projects</h3>
+        <h3>${t.featuredProjects}</h3>
         <div class="projects">
           ${data.projects
             .map(
@@ -251,8 +382,10 @@ function renderPortfolio(data: ProfileResponse) {
               <p class="period">${project.period}</p>
               <p>${project.description}</p>
               ${project.note ? `<p class="project-note">${project.note}</p>` : ""}
-              ${project.url ? `<a href="${project.url}" target="_blank" rel="noreferrer">Open project</a>` : ""}
-              ${project.askEmail ? `<a href="mailto:${data.contact.email}?subject=KVP%20Protocol%20Inquiry" class="ask-link">Ask personally</a>` : ""}
+              ${project.url ? `<a href="${project.url}" target="_blank" rel="noreferrer">${t.openProject}</a>` : ""}
+              ${project.attachmentUrl ? `<a href="${project.attachmentUrl}" target="_blank" rel="noreferrer" class="attachment-link">📄 ${t.downloadPaper}</a>` : ""}
+              ${project.youtubePreview ? `<a href="${project.youtubePreview}" target="_blank" rel="noreferrer" class="yt-link">▶ ${t.youtubePreview}</a>` : ""}
+              ${project.askEmail ? `<a href="mailto:${data.contact.email}?subject=${encodeURIComponent(project.name + " Inquiry")}" class="ask-link">${t.askPersonally}</a>` : ""}
             </article>
           `
             )
@@ -261,7 +394,7 @@ function renderPortfolio(data: ProfileResponse) {
       </section>
 
       <section class="card">
-        <h3>Tech Support</h3>
+        <h3>${t.techSupport}</h3>
         <div class="skill-groups">
           ${data.techSupport
             .map(
@@ -285,7 +418,7 @@ function renderPortfolio(data: ProfileResponse) {
       </section>
 
       <section class="card">
-        <h3>Developer Communities</h3>
+        <h3>${t.devCommunities}</h3>
         <ul>
           ${data.communities.map((community) => `<li>${community}</li>`).join("")}
         </ul>
@@ -294,10 +427,20 @@ function renderPortfolio(data: ProfileResponse) {
   `;
 }
 
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+
+/**
+ * Apply theme to body
+ */
 function applyTheme(theme: "dark" | "light") {
   document.body.classList.toggle("theme-light", theme === "light");
 }
 
+/**
+ * Setup dark/light theme toggle button
+ */
 function setupThemeToggle() {
   const saved = localStorage.getItem("portfolio-theme");
   const initialTheme: "dark" | "light" = saved === "light" ? "light" : "dark";
@@ -319,6 +462,36 @@ function setupThemeToggle() {
   });
 }
 
+// ============================================================
+// LANGUAGE TOGGLE
+// ============================================================
+
+/**
+ * Setup bilingual language toggle button (ID / EN)
+ */
+function setupLangToggle() {
+  const saved = localStorage.getItem("portfolio-lang");
+  currentLang = saved === "en" ? "en" : "id";
+
+  const button = document.querySelector<HTMLButtonElement>("#lang-toggle");
+  if (!button) return;
+
+  button.textContent = i18n[currentLang].langToggle;
+
+  button.addEventListener("click", async () => {
+    currentLang = currentLang === "id" ? "en" : "id";
+    localStorage.setItem("portfolio-lang", currentLang);
+    await loadProfile();
+    setupThemeToggle();
+    setupLangToggle();
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+
 void loadProfile().then(() => {
   setupThemeToggle();
+  setupLangToggle();
 });
