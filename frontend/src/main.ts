@@ -182,6 +182,7 @@ const fallbackProfile: ProfileResponse = {
       period: "Blueprint Stage",
       description:
         "Fully on-chain 3D MMORPG concept with on-chain governance, in-game DEX economy, 3 civilization tokens (VEL/ELX/KRT), and KVP Protocol settlement bridge.",
+      url: "https://krakenworld.online/",
     },
   ],
   techSupport: [
