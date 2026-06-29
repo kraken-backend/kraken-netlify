@@ -181,7 +181,7 @@ const fallbackProfile: ProfileResponse = {
       name: "KrakenWorld Online",
       period: "Blueprint Stage",
       description:
-        "A living civilization built as Experiment 001 of the R-Think Guardian Cognitive Framework, exploring how civilizations evolve through governance, trust, contribution, and legacy.",
+        `A living civilization built as Experiment 001 of the <a href="https://krakenteam.netlify.app/research-frameworks.html" target="_blank" rel="noopener noreferrer" class="research-link" aria-label="R-Think Guardian Cognitive Framework research details">R-Think Guardian Cognitive Framework</a>, exploring how civilizations evolve through governance, trust, contribution, and legacy.`,
       url: "https://krakenworld.online/",
     },
   ],
