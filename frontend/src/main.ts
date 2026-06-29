@@ -73,6 +73,7 @@ const i18n = {
     blogKdec: "K-DEC: Teori Ekonomi Deterministik yang Saya Ciptakan untuk KVP Blockchain",
     blogKvp: "Bagaimana Saya Membangun KVP Protocol: Perjalanan Arsitektur Layer-1 (2015-2026)",
     blogFindigi: "Mengapa Saya Membangun Findigi dan KVP: Melampaui On-Ramp, Off-Ramp, dan Ketergantungan EVM",
+    blogResearch: "Research & Frameworks: R-think, POTT, POD, KrakenWorld, ACC Discovery",
   },
   en: {
     langToggle: "Bahasa Indonesia",
@@ -98,6 +99,7 @@ const i18n = {
     blogKdec: "K-DEC: Deterministic Economic Theory I Created for KVP Blockchain",
     blogKvp: "How I Built KVP Protocol: Layer-1 Architecture Journey (2015-2026)",
     blogFindigi: "Why I Built Findigi and KVP: Beyond On-Ramp, Off-Ramp, and EVM Dependency",
+    blogResearch: "Research & Frameworks: R-think, POTT, POD, KrakenWorld, ACC Discovery",
   },
 };
 
@@ -346,6 +348,7 @@ function renderPortfolio(data: ProfileResponse): string {
           <a href="/kvp-layer1-architecture-journey.html">${t.blogKvp}</a>
           <a href="/why-i-built-findigi-kvp.html">${t.blogFindigi}</a>
           <a href="/pevi-ai-assistant.html">${currentLang === "id" ? "Pevi: AI Assistant Pribadi yang Saya Bangun Sendiri" : "Pevi: The Private AI Assistant I Built for Myself"}</a>
+          <a href="/research-frameworks.html">${t.blogResearch}</a>
         </div>
       </section>
 
