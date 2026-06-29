@@ -181,7 +181,7 @@ const fallbackProfile: ProfileResponse = {
       name: "KrakenWorld Online",
       period: "Blueprint Stage",
       description:
-        "Fully on-chain 3D MMORPG concept with on-chain governance, in-game DEX economy, 3 civilization tokens (VEL/ELX/KRT), and KVP Protocol settlement bridge.",
+        "A living civilization built as Experiment 001 of the R-Think Guardian Cognitive Framework, exploring how civilizations evolve through governance, trust, contribution, and legacy.",
       url: "https://krakenworld.online/",
     },
   ],
